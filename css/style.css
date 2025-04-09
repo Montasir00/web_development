@@ -1,0 +1,862 @@
+/* =======================================
+   Fonts Import
+======================================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Montserrat:wght@600;700&display=swap');
+
+/* =======================================
+   Global Variables
+======================================= */
+:root {
+  --primary-green: #22A55F; 
+  --black: #1A1A1A;
+  --dark-gray: #3C3C3C;
+  --light-gray: #D1D5DB;
+  --light-bg: #FFF9F0; 
+  --box-shadow: 0 0.5rem 8rem rgba(0, 0, 0, 0.1);
+  --border: 0.2rem solid rgba(0, 0, 0, 0.1);
+  
+  /* Z-index hierarchy */
+  --z-header: 1000;
+  --z-search: 102;
+  --z-cart: 101;
+  --z-login: 100;
+}
+
+/* =======================================
+   Reset & Base Styles
+======================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-decoration: none;
+}
+
+html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  scroll-padding-top: 7rem;
+  scroll-snap-type: y proximity;
+}
+
+body {
+  background: var(--light-bg);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  color: var(--dark-gray);
+}
+
+/* =======================================
+   Typography
+======================================= */
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--black);
+  transition: color 0.3s ease-in-out;
+}
+
+/* Paragraphs & Lists */
+p, li {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  color: var(--dark-gray);
+  transition: color 0.3s ease-in-out;
+}
+
+/* Buttons & Navigation Links */
+.btn, .header .navbar a {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease-in-out, background 0.3s ease-in-out, transform 0.2s ease;
+}
+
+/* Banner section */
+section {
+  max-width: 100%;
+  margin: auto;
+  padding: 3rem 3%;
+}
+
+.heading {
+  text-align: center;
+  padding: 2rem;
+  padding-bottom: 3rem;
+  font-size: 3.5rem;
+  color: var(--black);
+}
+
+.heading span {
+  background: var(--primary-green);
+  color: #fff;
+  display: inline-block;
+  padding: .5rem 3rem;
+  clip-path: polygon(100% 0, 93% 50%, 100% 99%, 0% 100%, 7% 50%, 0% 0%);
+}
+
+/* =======================================
+   Home
+======================================= */
+
+.home {
+  display: flex;
+  margin-top: 8rem;
+  justify-content: flex-start; 
+  background: url(../image/banner-img.jpg) no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding-top: 17rem;
+  padding-bottom: 10rem;
+  padding-left: 5rem; 
+}
+
+.home .content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: left;
+  max-width: 600px; 
+  background-color: rgba(0, 128, 0, 0.05); 
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+.home .content h3 {
+  color: var(--black);
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.home .content h3 span {
+  color: var(--primary-green);
+
+}
+
+.home .content p {
+  color: var(--dark-gray);
+  font-size: 1.7rem;
+  padding: 1rem;
+  line-height: 1.8;
+  max-width: 90%;
+}
+
+/* =======================================
+   Button
+======================================= */
+
+.btn {
+  border: 1.5px solid var(--black);
+  margin-top: 1rem;
+  display: inline-block;
+  padding: 0.8rem 3rem;
+  font-size: 1.7rem;
+  border-radius: 0.5rem;
+  color: var(--black);
+  cursor: pointer;
+  background: none;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--primary-green);
+  color: #fff;
+  transform: scale(1.05);
+}
+
+#menu-btn {
+  display: none;
+  transition: color 0.3s ease;
+}
+
+#menu-btn.active {
+  color: var(--primary-green);
+  transform: rotate(90deg);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* =======================================
+   Header Section
+======================================= */
+
+/* Header Section */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 3%; 
+  background: white;
+  box-shadow: var(--box-shadow);
+  z-index: var(--z-header);
+}
+
+.header .logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--black);
+  transition: color 0.3s ease;
+}
+
+.header .logo i {
+  color: var(--primary-green);
+  transition: color 0.3s ease;
+}
+
+.header .navbar {
+  position: static;
+  display: flex;
+  gap: 2rem;
+}
+
+.header .navbar a {
+  font-size: 1.7rem;
+  color: var(--dark-gray);
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.header .navbar.active {
+  right: 0;
+}
+
+.header .navbar a:hover {
+  color: var(--primary-green);
+}
+
+.header .navbar a::after {
+  content: "";
+  width: 100%;
+  height: 3px;
+  background: var(--primary-green);
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease-in-out;
+}
+
+.header .navbar a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Header Icons */
+.header .icons div {
+  height: 4.5rem;
+  width: 4.5rem;
+  border-radius: 50%;
+  background: var(--light-gray);
+  color: var(--black);
+  font-size: 2rem;
+  margin-right: 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease-in-out, color 0.3s ease, transform 0.2s ease;
+}
+
+.header .icons div:hover {
+  background: var(--primary-green);
+  color: white;
+  transform: scale(1.1);
+}
+
+/* Search Form */
+.header .search-form {
+  position: absolute;
+  top: 110%;
+  right: -100%;
+  width: 50rem;
+  height: 5rem;
+  background: white;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--box-shadow);
+  transition: right 0.4s ease-in-out;
+  z-index: var(--z-search);
+}
+
+.header .search-form.active {
+  right: 2rem;
+}
+
+.header .search-form input {
+  height: 100%;
+  width: 100%;
+  background: none;
+  font-size: 1.6rem;
+  color: var(--black);
+  padding: 0 1.5rem;
+  transition: color 0.3s ease;
+}
+
+
+.header .search-form label {
+  font-size: 2.2rem;
+  padding-right: 1.5rem;
+  color: var(--black);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.header .search-form label:hover {
+  color: var(--primary-green);
+}
+
+/* Shopping Cart */
+.header .shopping-cart {
+  position: absolute;
+  top: 110%;
+  right: -100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: var(--box-shadow);
+  width: 35rem;
+  background: #fff;
+  transition: right 0.4s ease-in-out;
+  z-index: var(--z-cart);
+}
+
+.header .shopping-cart.active {
+  right: 2rem;
+}
+
+.header .shopping-cart .box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  margin: 1rem 0;
+}
+
+.header .shopping-cart .box img {
+  width: 10rem;
+  height: 10rem;
+  object-fit: cover;
+}
+
+.header .shopping-cart .box .fa-trash {
+  font-size: 2rem;
+  position: absolute;
+  top: 50%;
+  right: 2rem;
+  cursor: pointer;
+  color: var(--light-gray);
+  transform: translateY(-50%);
+  transition: color 0.3s ease;
+}
+
+.header .shopping-cart .box .fa-trash:hover {
+  color: var(--dark-gray);
+}
+
+/* Login Form */
+.header .login-form {
+  position: absolute;
+  top: 110%;
+  right: -100%;
+  width: 35rem;
+  box-shadow: var(--box-shadow);
+  padding: 2rem;
+  border-radius: .5rem;
+  background: #fff;
+  text-align: center;
+  transition: right 0.4s ease-in-out;
+  z-index: var(--z-login);
+}
+
+.header .login-form.active {
+  right: 2rem;
+}
+.login-form input.box {
+  background: #f0f0f0; /* or #eee */
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  display: block;
+  width: 100%; 
+  padding: 1rem;
+  margin: 1rem 0;
+  font-size: 1.6rem;
+  color: var(--black);
+}
+
+.login-form input.box::placeholder {
+  color: #888; /* Slightly darker placeholder */
+}
+.header .login-form h3 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  color: var(--black);
+}
+.header .login-form p  {
+  font-size: 1.4rem;
+  transition: color 0.3s ease;
+}
+.header .login-form p a {
+  color: var(--primary-green);
+  font-size: 1.4rem;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+/* =======================================
+   Shared Card Class
+======================================= */
+.card {
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  outline: var(--border);
+  outline-offset: -0.5rem;
+}
+
+.card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 0.5rem 1.5rem rgba(34, 165, 95, 0.2);
+}
+
+/* =======================================
+   Feature Section
+======================================= */
+.features .box-container {
+  display: grid;
+  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+}
+
+.features .box-container .box img {
+  margin: 1rem 0;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.features .box-container .box {
+  text-align: center;
+}
+
+.features .box-container .box h3 {
+  font-size: 2.5rem;
+  line-height: 1.8;
+  color: var(--black);
+}
+
+.features .box-container .box p {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  color: var(--dark-gray);
+  padding: 1rem 0;
+}
+/* =======================================
+   Product Design - Card Grid Layout
+======================================= */
+
+.products {
+  padding: 2rem;
+  background: #f9f9f9;
+}
+
+/* Section heading */
+.products .heading {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  color: var(--black);
+}
+
+/* Grid layout for product cards */
+.products .product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  align-items: stretch;
+  padding: 1rem;
+}
+
+.products .product-container .product-card {
+  padding: 3rem 2rem;
+}
+
+/* Product images */
+.products .product-container .product-card img {
+  margin: 1rem 0;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+/* Product title */
+.products .product-container .product-card h1 {
+  font-size: 2rem;
+  color: var(--black);
+  margin-bottom: 0.5rem;
+}
+
+/* Product price */
+.products .product-container .product-card .price {
+  font-size: 1.5rem;
+  color: var(--dark-gray);
+  padding: 0.5rem 0;
+}
+
+/* Product rating stars */
+.products .product-container .product-card .stars i {
+  font-size: 1.4rem;
+  color: orange;
+  padding: 0.2rem;
+}
+
+/***** CTA Section Styles *****/
+.cta {
+  text-align: center;
+  margin: 2rem 0;
+  padding: 2rem;
+  background: #f9f9f9; 
+  border-radius: 0.5rem;
+}
+.cta h1 {
+  font-size: 3rem;
+  text-transform: none; 
+  margin-bottom: 1rem;
+}
+
+.cta {
+  border-radius: 0; 
+}
+
+
+/* Reviews Section */
+.reviews {
+  padding: 2rem;
+  background: #f9f9f9;
+}
+
+/* Section heading */
+.reviews .heading {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  color: var(--black);
+}
+
+/* Grid layout for review cards */
+.reviews .review-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  align-items: stretch;
+  padding: 1rem;
+}
+
+/* Individual review card styling */
+.reviews .review-container .review-card {
+  padding: 2rem;
+}
+
+/* Review images */
+.reviews .review-container .review-card img {
+  margin: 1rem 0;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Reviewer name */
+.reviews .review-container .review-card h2 {
+  font-size: 2rem;
+  color: var(--black);
+  margin-bottom: 0.5rem;
+}
+
+/* Review text */
+.reviews .review-container .review-card p {
+  font-size: 1.5rem;
+  color: var(--dark-gray);
+  padding: 0.5rem 0;
+}
+.reviews .stars i {
+  font-size: 1.4rem; 
+  color: orange;     
+  padding: 0.2rem;
+}
+
+.reviews .review-container .review-card h1 {
+  font-size: 2rem;
+  margin: 0.5rem 0;
+}
+
+
+/* =======================================
+   Blog Section
+======================================= */
+.blogs .box-container {
+  display: grid;
+  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+}
+
+.blogs .box-container .box img {
+  margin: 1rem 0;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.blogs .box-container .box .content{
+  padding: 2rem;
+}
+.blogs .box-container .box .content .icons{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: var(--border);
+}
+
+.blogs .box-container .box .content .icons a 
+{
+  color: var(--dark-gray);
+  font-size: 1.5rem;
+}
+.blogs .box-container .box .content .icons a:hover
+{
+  color: var(--black);
+}
+.blogs .box-container .box .content .icons a i
+{
+  color: green;
+  padding: .5rem;
+}
+.blogs .box-container .box .content h3{
+  line-height: 1.8;
+  color: var(--black);
+  font-size: 1.5rem;
+  padding: .5rem;
+}
+.blogs .box-container .box .content p{
+  line-height: 1.8;
+  color: var(--dark-gray);
+  font-size: 1.5rem;
+  padding: .5rem 0;
+}
+
+/* =======================================
+   Footer Section
+======================================= */
+.footer
+{
+  background: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+.footer .box-container
+{
+  display: grid;
+  align-items: start;
+  grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+  gap: 1.5rem;
+}
+
+.footer .box-container .box h3
+{
+  font-size: 2.5rem;
+  color: var(--black);
+  padding: 1rem 0;
+}
+
+.footer .box-container .box h3 i
+{
+  color: var(--primary-green);
+
+}
+
+.footer .box-container .box .links 
+{
+  display: block;
+  font-size: 1.5rem;
+  color: var(--dark-gray);
+  padding: 1rem;
+}
+
+.footer .box-container .box  .links i
+{
+  color: var(--primary-green);
+  padding-right: .5rem;
+}
+
+.footer .box-container .box .links:hover i
+{
+  padding-right: 2rem;
+}
+
+.footer .box-container .box p
+{
+  line-height: 1.8;
+  font-size: 1.5rem;
+  color: var(--dark-gray);
+  padding: 1rem 0;
+}
+.footer .box-container .box .share a
+{
+  height: 4rem;
+  width: 4rem;
+  line-height: 4rem;
+  border-radius: .5rem;
+  font-size: 2rem;
+  color: var(--black);
+  margin-left: .2rem;
+  background: #eee;
+  text-align: center;
+}
+.footer .box-container .box .share a:hover
+{
+  background: var(--primary-green);
+  color: #fff;
+}
+
+.footer .box-container .box .email
+{
+  width: 100%;
+  margin: .7rem 0;
+  padding: 1rem;
+  border-radius: .5rem;
+  background: #eee;
+  font-size: 1.6rem;
+  color: var(--black);
+  text-transform: none;
+}
+.footer .box-container .box .payment-img
+{
+  margin-top: 2rem;
+  height: 3rem;
+}
+
+.footer .credit
+{
+  text-align: center;
+  margin: 2rem;
+  padding: 1rem;
+  padding-top: 2.5rem;
+  font-size: 2rem;
+  color: var(--black);
+  border-top: var(--border);
+}
+.footer .credit span 
+{
+  color: var(--primary-green);
+}
+
+
+/* =======================================
+   Media Section
+======================================= */
+@media (max-width: 991px) {
+  html {
+    font-size: 55%;
+  }
+  
+  .header {
+    padding: 2rem;
+  }
+  
+  section {
+    padding: 2rem 9%;
+  }
+}
+
+
+  
+@media (max-width: 768px) {
+  .header .navbar {
+    position: absolute;
+    top: 100%;
+    right: -100%;
+    width: 25rem;
+    flex-direction: column;
+    padding: 2rem;
+    background: white;
+    box-shadow: var(--box-shadow);
+    transition: right 0.4s ease-in-out;
+  }
+
+  #menu-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn {
+    display: block;
+    text-align: center;
+    margin: 1rem auto;
+  }
+
+  .header .search-form {
+    width: 90%; 
+  }
+  
+  .header .navbar a {
+    font-size: 2rem;
+    margin: 2rem 3rem;
+    display: block;
+  }
+  
+  .home {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    background-position: left;
+    gap: 2rem;
+  }
+
+  .home .content {
+    max-width: 90%;
+    margin: 0;
+    text-align: left;
+  }
+}
+
+
+@media (max-width: 450px) {
+  html {
+    font-size: 50%;
+  }
+  
+  .heading {
+    font-size: 2.5rem;
+  }
+  .footer
+  {
+    text-align: center;
+  }
+}
