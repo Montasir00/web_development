@@ -1,0 +1,93 @@
+/* General Styles for Add Product Page */
+.add-product {
+    padding: 3rem 5%;
+    text-align: center;
+    background-color: var(--light-bg);
+    min-height: calc(100vh - 6rem); /* Adjust for header/footer height */
+    margin-top: 8rem; /* Prevent overlap with the fixed header */
+}
+
+.add-product h1 {
+    font-size: 3rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 2rem;
+}
+
+.add-product p.error {
+    color: red;
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Form Styles */
+.add-product form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+}
+
+.add-product form input[type="text"],
+.add-product form input[type="number"],
+.add-product form textarea,
+.add-product form select {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-family: 'Poppins', sans-serif;
+    border: 1px solid var(--light-gray);
+    border-radius: 0.5rem;
+    background: #f9f9f9;
+    color: var(--black);
+    transition: border-color 0.3s ease;
+}
+
+/* Focus Styles for Input, Textarea, and Select */
+.add-product form input[type="text"]:focus,
+.add-product form input[type="number"]:focus,
+.add-product form textarea:focus,
+.add-product form select:focus {
+    border-color: var(--primary-green);
+    outline: none;
+}
+
+/* Textarea Specific Styles */
+.add-product form textarea {
+    resize: vertical; /* Allow vertical resizing only */
+    min-height: 100px; /* Set a minimum height */
+}
+
+/* Select Dropdown Specific Styles */
+.add-product form select {
+    appearance: none; /* Remove default browser styles */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23ccc" d="M2 0L0 2h4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    cursor: pointer;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .add-product form {
+        padding: 1.5rem;
+    }
+
+    .add-product form input[type="text"],
+    .add-product form input[type="number"],
+    .add-product form textarea,
+    .add-product form select {
+        font-size: 1.4rem;
+    }
+
+    .add-product form button.btn {
+        font-size: 1.4rem;
+    }
+}

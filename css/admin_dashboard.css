@@ -1,0 +1,38 @@
+/* General Styles for Admin Dashboard */
+.admin-dashboard {
+    padding: 3rem 5%;
+    text-align: center;
+    background-color: var(--light-bg);
+    min-height: calc(100vh - 6rem); 
+    margin-top: 8rem; 
+}
+
+/* Admin Actions Section */
+.admin-actions {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.admin-dashboard p {
+    font-size: 2.5rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark-gray);
+    margin-bottom: 2rem;
+    line-height: 1.8;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-actions {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .admin-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,0 +1,70 @@
+/* General Styles for Edit Product Page */
+.edit-product {
+    padding: 3rem 5%;
+    text-align: center;
+    background-color: var(--light-bg);
+    min-height: calc(100vh - 6rem); /* Adjust for header/footer height */
+    margin-top: 8rem; /* Prevent overlap with the fixed header */
+}
+
+.edit-product h1 {
+    font-size: 3rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 2rem;
+}
+
+.edit-product p.error {
+    color: red;
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Form Styles */
+.edit-product form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+}
+
+.edit-product form input[type="text"],
+.edit-product form input[type="number"] {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-family: 'Poppins', sans-serif;
+    border: 1px solid var(--light-gray);
+    border-radius: 0.5rem;
+    background: #f9f9f9;
+    color: var(--black);
+    transition: border-color 0.3s ease;
+}
+
+.edit-product form input[type="text"]:focus,
+.edit-product form input[type="number"]:focus {
+    border-color: var(--primary-green);
+    outline: none;
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .edit-product form {
+        padding: 1.5rem;
+    }
+
+    .edit-product form input[type="text"],
+    .edit-product form input[type="number"] {
+        font-size: 1.4rem;
+    }
+
+    .edit-product form button.btn {
+        font-size: 1.4rem;
+    }
+}

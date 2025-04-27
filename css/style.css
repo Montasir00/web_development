@@ -1,8 +1,41 @@
 /* =======================================
    Fonts Import
 ======================================= */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Montserrat:wght@600;700&display=swap');
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../font/Montserrat/static/Montserrat-Regular.ttf') format('truetype'),
+       url('../font/Montserrat/static/Montserrat-Regular.woff2') format('woff2'),
+       url('../font/Montserrat/static/Montserrat-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
 
+@font-face {
+  font-family: 'Montserrat';
+  src: url('../font/Montserrat/static/Montserrat-Bold.ttf') format('truetype'),
+       url('../font/Montserrat/static/Montserrat-Bold.woff2') format('woff2'),
+       url('../font/Montserrat/static/Montserrat-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../font/Poppins/Poppins-Regular.ttf') format('truetype'),
+       url('../font/Poppins/Poppins-Regular.woff2') format('woff2'),
+       url('../font/Poppins/Poppins-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../font/Poppins/Poppins-Bold.ttf') format('truetype'),
+       url('../font/Poppins/Poppins-Bold.woff2') format('woff2'),
+       url('../font/Poppins/Poppins-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
 /* =======================================
    Global Variables
 ======================================= */
@@ -26,8 +59,6 @@
    Reset & Base Styles
 ======================================= */
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
   outline: none;
   border: none;
@@ -89,8 +120,7 @@ section {
 
 .heading {
   text-align: center;
-  padding: 2rem;
-  padding-bottom: 3rem;
+  padding: 4rem;
   font-size: 3.5rem;
   color: var(--black);
 }
@@ -203,11 +233,11 @@ section {
 }
 
 .header .logo {
-  font-size: 2.5rem;
   font-weight: bold;
   font-family: 'Montserrat', sans-serif;
   color: var(--black);
   transition: color 0.3s ease;
+  font-size: clamp(2rem, 4vw, 2.5rem);
 }
 
 .header .logo i {
@@ -257,6 +287,8 @@ section {
 
 /* Header Icons */
 .header .icons div {
+  position: relative; 
+  display: inline-block;
   height: 4.5rem;
   width: 4.5rem;
   border-radius: 50%;
@@ -339,13 +371,81 @@ section {
   right: 2rem;
 }
 
-.header .shopping-cart .box {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  position: relative;
-  margin: 1rem 0;
+/* Style for the container of the cart items */
+.header .shopping-cart .cart-items {
+  max-height: 40rem; /* Adjust the maximum height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling if there are many items */
+  margin-bottom: 1rem; /* Space between items and total */
 }
+
+/* Style for each individual cart item */
+.header .shopping-cart .cart-item {
+  display: flex; /* Arrange image and content side by side */
+  align-items: center; /* Vertically align items */
+  gap: 1rem; /* Space between image and content */
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 0.1rem solid var(--light-gray);
+  position: relative; /* For positioning the remove icon */
+}
+
+.header .shopping-cart .cart-item:last-child {
+  border-bottom: none; /* Remove border from the last item */
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.header .shopping-cart .cart-item img {
+  height: 7rem;
+  width: 7rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.header .shopping-cart .cart-item .content h3 {
+  font-size: 1.6rem;
+  color: var(--black); /* Or your desired text color */
+  margin-bottom: 0.5rem;
+}
+
+.header .shopping-cart .cart-item .content .price {
+  font-size: 1.4rem;
+  color: var(--gray); /* Or your desired price color */
+}
+
+/* Style for the total */
+.header .shopping-cart .total {
+  padding-top: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: right;
+  font-size: 1.6rem;
+  color: var(--black);
+}
+
+.header .shopping-cart .total span {
+  font-weight: bold;
+}
+#cart-count {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  background-color: var(--primary-green); 
+  font-size: 11px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: background 0.3s ease-in-out, color 0.3s ease, transform 0.2s ease;
+}
+
+#cart-btn:hover #cart-count {
+  background-color: var(--light-gray);
+  color: var(--black);
+}
+
 
 .header .shopping-cart .box img {
   width: 10rem;
@@ -353,18 +453,21 @@ section {
   object-fit: cover;
 }
 
-.header .shopping-cart .box .fa-trash {
+.header .shopping-cart .cart-item .fa-trash-o {
   font-size: 2rem;
   position: absolute;
   top: 50%;
   right: 2rem;
   cursor: pointer;
-  color: var(--light-gray);
+  color: red; /* Keep red for testing */
   transform: translateY(-50%);
   transition: color 0.3s ease;
+  font-family: 'FontAwesome' !important; /* Force the Font Awesome font */
+  font-weight: normal !important; /* Ensure the correct font weight for icons */
+  font-style: normal !important; /* Ensure the correct font style for icons */
 }
 
-.header .shopping-cart .box .fa-trash:hover {
+.header .shopping-cart .cart-item .fa-trash-o:hover {
   color: var(--dark-gray);
 }
 
@@ -434,18 +537,18 @@ section {
   transform: translateY(-0.5rem);
   box-shadow: 0 0.5rem 1.5rem rgba(34, 165, 95, 0.2);
 }
-
 /* =======================================
-   Feature Section
+   Shared stars Class
 ======================================= */
-.features .box-container {
-  display: grid;
-  align-items: start;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: 1.5rem;
+.rating-stars i {
+  font-size: 1.4rem;
+  color: orange;
+  padding: 0.2rem;
 }
-
-.features .box-container .box img {
+/* =======================================
+  Shared Image Class
+======================================= */
+.img-card-style {
   margin: 1rem 0;
   width: 100%;
   height: 200px;
@@ -453,8 +556,22 @@ section {
   border-radius: 0.5rem;
 }
 
+/* =======================================
+   Feature Section
+======================================= */
+.features .box-container {
+  display: grid;
+  align-items: stretch;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 1.5rem;
+}
+
 .features .box-container .box {
   text-align: center;
+  min-height: 400px; /* Adjust based on your design */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .features .box-container .box h3 {
@@ -475,16 +592,8 @@ section {
 
 .products {
   padding: 2rem;
-  background: #f9f9f9;
 }
 
-/* Section heading */
-.products .heading {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-  color: var(--black);
-}
 
 /* Grid layout for product cards */
 .products .product-container {
@@ -494,20 +603,7 @@ section {
   justify-content: center;
   align-items: stretch;
   padding: 1rem;
-}
-
-.products .product-container .product-card {
-  padding: 3rem 2rem;
-}
-
-/* Product images */
-.products .product-container .product-card img {
-  margin: 1rem 0;
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 0.5rem;
-}
+} 
 
 /* Product title */
 .products .product-container .product-card h1 {
@@ -523,19 +619,12 @@ section {
   padding: 0.5rem 0;
 }
 
-/* Product rating stars */
-.products .product-container .product-card .stars i {
-  font-size: 1.4rem;
-  color: orange;
-  padding: 0.2rem;
-}
 
 /***** CTA Section Styles *****/
 .cta {
   text-align: center;
   margin: 2rem 0;
   padding: 2rem;
-  background: #f9f9f9; 
   border-radius: 0.5rem;
 }
 .cta h1 {
@@ -544,24 +633,12 @@ section {
   margin-bottom: 1rem;
 }
 
-.cta {
-  border-radius: 0; 
-}
-
 
 /* Reviews Section */
 .reviews {
   padding: 2rem;
-  background: #f9f9f9;
 }
 
-/* Section heading */
-.reviews .heading {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-  color: var(--black);
-}
 
 /* Grid layout for review cards */
 .reviews .review-container {
@@ -573,19 +650,6 @@ section {
   padding: 1rem;
 }
 
-/* Individual review card styling */
-.reviews .review-container .review-card {
-  padding: 2rem;
-}
-
-/* Review images */
-.reviews .review-container .review-card img {
-  margin: 1rem 0;
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-}
 
 /* Reviewer name */
 .reviews .review-container .review-card h2 {
@@ -599,11 +663,6 @@ section {
   font-size: 1.5rem;
   color: var(--dark-gray);
   padding: 0.5rem 0;
-}
-.reviews .stars i {
-  font-size: 1.4rem; 
-  color: orange;     
-  padding: 0.2rem;
 }
 
 .reviews .review-container .review-card h1 {
@@ -622,12 +681,15 @@ section {
   gap: 1.5rem;
 }
 
-.blogs .box-container .box img {
-  margin: 1rem 0;
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+.blogs .box-container .box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%; /* ensures equal height */
+  background: #fff;
   border-radius: 0.5rem;
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
 }
 
 .blogs .box-container .box .content{
@@ -688,7 +750,7 @@ section {
 
 .footer .box-container .box h3
 {
-  font-size: 2.5rem;
+  font-size: 3.5rem;
   color: var(--black);
   padding: 1rem 0;
 }

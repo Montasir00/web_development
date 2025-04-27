@@ -1,0 +1,109 @@
+/* Register Page Specific Styles */
+.register-form-container {
+    max-width: 500px;
+    margin: 5rem auto; /* Adjust margin for better spacing */
+    padding: 3rem 2.5rem;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    border-radius: 1rem;
+    border: 1px solid #e0e0e0;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Center align text */
+}
+
+.register-form-container h1.heading {
+    text-align: center;
+    font-size: 3rem;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-green);
+    margin-bottom: 2rem;
+}
+
+.register-form-container form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.register-form-container .form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.register-form-container label {
+    font-size: 1.6rem;
+    color: var(--black);
+    margin-bottom: 0.5rem;
+}
+
+.register-form-container input[type="text"],
+.register-form-container input[type="email"],
+.register-form-container input[type="password"],
+.register-form-container textarea,
+.register-form-container input[type="tel"] {
+    padding: 1.2rem;
+    font-size: 1.6rem;
+    border: 1px solid #dcdcdc;
+    border-radius: 0.5rem;
+    background: #f9f9f9;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+}
+
+.register-form-container input[type="text"]:focus,
+.register-form-container input[type="email"]:focus,
+.register-form-container input[type="password"]:focus,
+.register-form-container textarea:focus,
+.register-form-container input[type="tel"]:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.2); /* Add focus shadow */
+}
+
+.register-form-container input[type="submit"] {
+    background: linear-gradient(90deg, #28a745, #218838); /* Add gradient */
+    color: #fff;
+    padding: 1.2rem;
+    font-size: 1.7rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+.register-form-container input[type="submit"]:hover {
+    background: #1e7e34;
+    transform: scale(1.02); /* Add hover effect */
+}
+
+.register-form-container p {
+    text-align: center;
+    font-size: 1.4rem;
+    color: var(--dark-gray);
+}
+
+.register-form-container p a {
+    color: var(--primary-green);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.error-message {
+    color: red;
+    background: #ffe0e0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* Add a subtle background for the page */
+body {
+    background: linear-gradient(120deg, #f9f9f9, #f1f1f1);
+}

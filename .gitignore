@@ -1,0 +1,43 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Dependency managers (if any)
+node_modules/
+vendor/
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+cache/
+sessions/
+
+# Database related (if you are not committing the actual data)
+*.sqlite
+*.db
+data/
+
+# Uploaded files (if you don't want to track them)
+uploads/
+images/  # You already have an 'image' directory, so ignoring it here
+
+# Environment configuration (if you have local-only configs)
+.env
+*.ini # Or any other local config files
+
+# Build artifacts (if you have any compilation steps)
+build/
+dist/
+
+# Composer related (if you're using PHP Composer)
+composer.lock
+
+# Other files/directories you might want to ignore
+# Any other temporary or generated files

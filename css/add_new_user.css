@@ -1,0 +1,102 @@
+/* General Styles for Add User Page */
+.add-user {
+    padding: 3rem 5%;
+    text-align: center;
+    background-color: var(--light-bg);
+    min-height: calc(100vh - 6rem);
+    margin-top: 8rem;
+}
+
+.add-user h1.heading {
+    font-size: 3rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 2rem;
+}
+
+.add-user h1 .heading span {
+    color: var(--black);
+}
+
+/* Form Styles */
+.add-user form {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--box-shadow);
+}
+
+.add-user form input[type="text"],
+.add-user form input[type="email"],
+.add-user form input[type="password"],
+.add-user form select {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-family: 'Poppins', sans-serif;
+    border: 1px solid var(--light-gray);
+    border-radius: 0.5rem;
+    background: #f9f9f9;
+    color: var(--black);
+    transition: border-color 0.3s ease;
+}
+
+/* Focus Styles */
+.add-user form input[type="text"]:focus,
+.add-user form input[type="email"]:focus,
+.add-user form input[type="password"]:focus,
+.add-user form select:focus {
+    border-color: var(--primary-green);
+    outline: none;
+}
+
+/* Select Dropdown Styles */
+.add-user form select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23ccc" d="M2 0L0 2h4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+    cursor: pointer;
+}
+
+/* Button Styles */
+.add-user form button.btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.6rem;
+    font-family: 'Poppins', sans-serif;
+    background: var(--primary-green);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s ease;
+}
+
+.add-user form button.btn:hover {
+    background: var(--dark-green);
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .add-user form {
+        padding: 1.5rem;
+    }
+
+    .add-user form input[type="text"],
+    .add-user form input[type="email"],
+    .add-user form input[type="password"],
+    .add-user form select {
+        font-size: 1.4rem;
+    }
+
+    .add-user form button.btn {
+        font-size: 1.4rem;
+    }
+}

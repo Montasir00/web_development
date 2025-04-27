@@ -1,0 +1,106 @@
+/* General Styles for Manage Products */
+.manage-products {
+    padding: 3rem 5%;
+    text-align: center;
+    background-color: var(--light-bg);
+    min-height: calc(100vh - 6rem); /* Adjust for header/footer height */
+    margin-top: 8rem; /* Prevent overlap with the fixed header */
+}
+
+.manage-products h1 {
+    font-size: 3rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: 2rem;
+}
+
+/* Table Styles */
+.manage-products table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    background: white;
+    box-shadow: var(--box-shadow);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.manage-products table thead {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+.manage-products table thead th {
+    padding: 1rem;
+    font-size: 1.6rem;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+}
+
+.manage-products table tbody tr {
+    border-bottom: var(--border);
+    transition: background-color 0.3s ease;
+}
+
+.manage-products table tbody tr:hover {
+    background-color: rgba(34, 165, 95, 0.1); /* Light green hover effect */
+}
+
+.manage-products table tbody td {
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--dark-gray);
+    text-align: center;
+}
+
+/* Buttons in Table */
+.manage-products table tbody td a.btn {
+    /* Inherit global button styles */
+    padding: 0.5rem 1.5rem;
+    font-size: 1.4rem;
+    border-radius: 0.3rem;
+    text-transform: uppercase;
+}
+
+.manage-products table tbody td a.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .manage-products table {
+        font-size: 1.4rem;
+    }
+
+    .manage-products table thead {
+        display: none; /* Hide table headers on small screens */
+    }
+
+    .manage-products table tbody tr {
+        display: block;
+        margin-bottom: 1rem;
+        box-shadow: var(--box-shadow);
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    .manage-products table tbody td {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        border-bottom: var(--border);
+    }
+
+    .manage-products table tbody td:last-child {
+        border-bottom: none;
+    }
+
+    .manage-products table tbody td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--primary-green);
+    }
+}
