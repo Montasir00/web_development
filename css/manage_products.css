@@ -3,8 +3,8 @@
     padding: 3rem 5%;
     text-align: center;
     background-color: var(--light-bg);
-    min-height: calc(100vh - 6rem); /* Adjust for header/footer height */
-    margin-top: 8rem; /* Prevent overlap with the fixed header */
+    min-height: calc(100vh - 6rem); 
+    margin-top: 8rem; 
 }
 
 .manage-products h1 {

@@ -1,5 +1,5 @@
 <?php
-require_once('db.php');
+require_once __DIR__ . '/includes/init.php';
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
@@ -24,6 +24,7 @@ if (mysqli_query($conn, $sql1)) {
 // Update the role for admin1@bloombasket.com
 $sql2 = "UPDATE users 
 SET role = 'admin' 
+
 WHERE email = 'admin1@bloombasket.com'";
 
 if (mysqli_query($conn, $sql2)) {

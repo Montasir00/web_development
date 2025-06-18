@@ -1,6 +1,6 @@
 <?php
-require_once 'db.php';
-require_once 'includes/functions.php';
+// filepath: c:\Users\fazlu\OneDrive\Desktop\projects\web_developmet\register.php
+require_once __DIR__ . '/includes/init.php';
 
 $error = '';
 $success = '';
@@ -13,10 +13,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $confirm_password = sanitize($_POST['confirm_password']);
     $address = sanitize($_POST['address']);
     $phone = sanitize($_POST['phone']);
+    $telegram_chat_id = sanitize($_POST['telegram_chat_id']);
     
     // Validate data
     if(empty($name) || empty($email) || empty($password) || empty($confirm_password)) {
-        $error = "All fields are required";
+        $error = "Name, email, and password fields are required";
     } elseif(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = "Invalid email format";
     } elseif($password != $confirm_password) {
@@ -34,9 +35,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Hash password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
-            // Insert user
-            $sql = "INSERT INTO users (name, email, password, address, phone) 
-                    VALUES ('$name', '$email', '$hashed_password', '$address', '$phone')";
+            // Insert user with telegram_chat_id
+            $sql = "INSERT INTO users (name, email, password, address, phone, telegram_chat_id) 
+                    VALUES ('$name', '$email', '$hashed_password', '$address', '$phone', '$telegram_chat_id')";
             
             if(mysqli_query($conn, $sql)) {
                 $user_id = mysqli_insert_id($conn);
@@ -69,9 +70,45 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/register.css">
+    <style>
+        .telegram-info {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-size: 1.4rem;
+        }
+        .telegram-info h4 {
+            margin-top: 0;
+            color: #0c5460;
+            font-size: 1.6rem;
+        }
+        .simple-steps {
+            background: #d1ecf1;
+            padding: 1rem;
+            border-radius: 5px;
+            border-left: 4px solid #17a2b8;
+            margin: 1rem 0;
+        }
+        .simple-steps strong {
+            color: #0c5460;
+        }
+        .optional-label {
+            color: #666;
+            font-size: 1.2rem;
+        }
+        .bot-highlight {
+            background: #fff3cd;
+            padding: 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header Section (You can include it using PHP include) -->
+    <!-- Header Section -->
     <?php include 'includes/header.php'; ?>
     
     <section class="register-form-container">
@@ -117,6 +154,39 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             
             <div class="form-group">
+                <label for="telegram_chat_id">
+                    Telegram Chat ID 
+                    <span class="optional-label">(Optional - for OTP login)</span>
+                </label>
+                <input type="text" id="telegram_chat_id" name="telegram_chat_id" class="box" placeholder="e.g., 123456789">
+            </div>
+            
+            <div class="telegram-info">
+                <h4>📱 How to get your Chat ID (Super Easy!):</h4>
+                <div class="simple-steps">
+                    <strong>1.</strong> Click the button below to activate our bot 👇<br>
+                    <button type="button" id="activate-bot-btn" class="btn" style="background: #28a745; margin: 10px 0;">
+                        🤖 Activate Chat ID Bot
+                    </button><br>
+                    <strong>2.</strong> Start our bot: <span class="bot-highlight"><strong>@YourBotUsername</strong></span><br>
+                    <strong>3.</strong> Send any message (like "hi" or "hello")<br>
+                    <strong>4.</strong> Bot will reply with your Chat ID<br>
+                    <strong>5.</strong> Copy the number and paste it above ☝️
+                </div>
+                
+                <div id="bot-status" style="display: none; padding: 10px; margin: 10px 0; border-radius: 5px;">
+                    <!-- Status will be shown here -->
+                </div>
+                
+                <p><strong>💡 Why add Chat ID?</strong><br>
+                ✅ Get OTP directly on Telegram<br>
+                ✅ Faster login process<br>
+                ✅ More secure than SMS</p>
+                
+                <p style="margin-bottom: 0;"><strong>🤖 Bot Name:</strong> Replace <code>@YourBotUsername</code> with your actual bot username</p>
+            </div>
+            
+            <div class="form-group">
                 <input type="submit" value="Register" class="btn">
             </div>
             
@@ -124,10 +194,92 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </section>
     
-    <!-- Footer Section (You can include it using PHP include) -->
+    <!-- Footer Section -->
     <?php include 'includes/footer.php'; ?>
     
     <!-- JavaScript -->
     <script src="js/script.js"></script>
+<script>
+// Client-side validation for chat_id
+document.getElementById('telegram_chat_id').addEventListener('input', function() {
+    const chatId = this.value;
+    if (chatId && !/^\d+$/.test(chatId)) {
+        this.setCustomValidity('Chat ID should only contain numbers');
+        this.style.borderColor = '#dc3545';
+    } else {
+        this.setCustomValidity('');
+        this.style.borderColor = '';
+    }
+});
+
+// Add helpful tooltip
+document.getElementById('telegram_chat_id').addEventListener('focus', function() {
+    if (!this.value) {
+        this.placeholder = 'Start our bot first to get your Chat ID';
+    }
+});
+
+document.getElementById('telegram_chat_id').addEventListener('blur', function() {
+    if (!this.value) {
+        this.placeholder = 'e.g., 123456789';
+    }
+});
+
+// Activate bot button
+document.getElementById('activate-bot-btn').addEventListener('click', function() {
+    const button = this;
+    const statusDiv = document.getElementById('bot-status');
+    
+    // Show loading
+    button.innerHTML = '🔄 Activating Bot...';
+    button.disabled = true;
+    statusDiv.style.display = 'block';
+    statusDiv.style.background = '#fff3cd';
+    statusDiv.innerHTML = '⏳ Activating Chat ID Bot... Please wait.';
+    
+    // Call the bot activation
+    fetch('activate_chat_bot.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Bot activation response:', data); // Debug log
+            
+            if (data.success) {
+                button.innerHTML = '✅ Bot Activated!';
+                button.style.background = '#28a745';
+                statusDiv.style.background = '#d4edda';
+                statusDiv.innerHTML = '✅ <strong>Bot is now active for 60 seconds!</strong><br>📱 Go to Telegram and start our bot: <strong>@' + (data.bot_name || 'YourBotUsername') + '</strong><br>💬 Send any message to get your Chat ID!<br>⏰ Bot will respond for the next 60 seconds.';
+                
+                // Auto-disable after 60 seconds
+                setTimeout(() => {
+                    button.innerHTML = '🤖 Activate Chat ID Bot';
+                    button.style.background = '#28a745';
+                    button.disabled = false;
+                    statusDiv.innerHTML = '⏰ Bot activation period ended. Click again if you need to reactivate.';
+                    statusDiv.style.background = '#f8f9fa';
+                }, 60000);
+                
+            } else {
+                button.innerHTML = '❌ Activation Failed';
+                button.style.background = '#dc3545';
+                statusDiv.style.background = '#f8d7da';
+                statusDiv.innerHTML = '❌ Failed to activate bot: ' + (data.message || 'Unknown error');
+                button.disabled = false;
+            }
+        })
+        .catch(error => {
+            console.error('Bot activation error:', error); // Debug log
+            button.innerHTML = '❌ Error';
+            button.style.background = '#dc3545';
+            statusDiv.style.background = '#f8d7da';
+            statusDiv.innerHTML = '❌ Connection error. Please try again. Error: ' + error.message;
+            button.disabled = false;
+        });
+});
+</script>
 </body>
 </html>

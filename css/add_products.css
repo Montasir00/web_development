@@ -3,8 +3,8 @@
     padding: 3rem 5%;
     text-align: center;
     background-color: var(--light-bg);
-    min-height: calc(100vh - 6rem); /* Adjust for header/footer height */
-    margin-top: 8rem; /* Prevent overlap with the fixed header */
+    min-height: calc(100vh - 6rem); 
+    margin-top: 8rem;
 }
 
 .add-product h1 {
@@ -65,8 +65,7 @@
 
 /* Select Dropdown Specific Styles */
 .add-product form select {
-    appearance: none; /* Remove default browser styles */
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23ccc" d="M2 0L0 2h4z"/></svg>');
+    appearance: none; 
     background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1rem;

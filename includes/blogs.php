@@ -15,8 +15,7 @@
                     </div>
                     <h3><?php echo htmlspecialchars($blog['title']); ?></h3>
                     <p><?php echo substr(htmlspecialchars($blog['content']), 0, 150); ?>...</p>
-                    <a href="blog_details.php?id=<?php echo $blog['id']; ?>" class="btn">Read More</a>
-                </div>
+                    <a href="blog/blog_details.php?id=<?php echo $blog['id']; ?>" class="btn">Read More</a>                </div>
             </div>
     <?php
         endwhile;

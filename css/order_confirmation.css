@@ -1,0 +1,206 @@
+/* =======================================
+   Order Confirmation - Cleaned & Fixed
+======================================= */
+
+.confirmation-container {
+    max-width: 850px;
+    margin: 12rem auto 4rem; /* Enough space from fixed header */
+    padding: 4rem 2rem 3rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.08);
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Optional top success bar */
+.confirmation-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 0.4rem;
+    width: 100%;
+    background-color: var(--primary-green, #27ae60);
+}
+
+/* Confirmation Icon */
+.confirmation-icon {
+    font-size: 9rem;
+    color: var(--primary-green, #27ae60);
+    margin: 2rem auto 2rem;
+    display: block;
+    text-shadow: 0 0.4rem 0.8rem rgba(34, 165, 95, 0.3);
+    line-height: 1;
+    z-index: 1;
+    position: relative;
+}
+
+/* Heading */
+.confirmation-heading {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2.6rem, 5vw, 3.6rem);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--black, #1a1a1a);
+    text-transform: uppercase;
+}
+
+.confirmation-heading span {
+    color: var(--primary-green, #27ae60);
+}
+
+/* Success Message Box */
+.success-message {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 1.6rem 2rem;
+    border-left: 0.5rem solid #2e7d32;
+    border-radius: 0.6rem;
+    margin: 2rem auto;
+    font-size: 1.7rem;
+    font-weight: 500;
+    max-width: 90%;
+    box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.06);
+}
+
+/* Order Details Box */
+.order-details {
+    background-color: #f9f9f9;
+    padding: 2.5rem;
+    border-radius: 0.8rem;
+    margin-top: 2.5rem;
+    text-align: left;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.05);
+}
+
+/* Basic Info Row */
+.order-info {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.order-info p {
+    font-size: 1.7rem;
+    margin: 0.8rem 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Items Section */
+.item-list {
+    margin-top: 2rem;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid #eee;
+    gap: 1.5rem;
+}
+
+.order-item:last-child {
+    border-bottom: none;
+}
+
+.order-item img {
+    width: 7rem;
+    height: 7rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.1);
+}
+
+.item-details {
+    flex: 1;
+}
+
+.item-details h3 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: var(--black, #1a1a1a);
+}
+
+.item-details p {
+    font-size: 1.5rem;
+    color: var(--dark-gray, #3c3c3c);
+    margin: 0;
+}
+
+.item-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-green, #27ae60);
+}
+
+/* Total Section (if needed) */
+.order-total {
+    text-align: right;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--primary-green, #27ae60);
+    margin-top: 2rem;
+}
+
+/* Return Button */
+.return-button {
+    display: inline-block;
+    background-color: var(--primary-green, #27ae60);
+    color: white;
+    padding: 1.4rem 3rem;
+    font-size: 1.7rem;
+    font-weight: 600;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    margin: 4rem auto 2rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 0.4rem 1rem rgba(34, 165, 95, 0.2);
+}
+
+.return-button:hover {
+    background-color: var(--dark-green, #219150);
+    transform: translateY(-0.2rem);
+}
+
+.return-button:active {
+    transform: translateY(0);
+}
+
+/* =======================================
+   Mobile Friendly Adjustments
+======================================= */
+@media (max-width: 768px) {
+    .confirmation-container {
+        margin-top: 10rem;
+        padding: 3rem 1.5rem;
+    }
+
+    .confirmation-icon {
+        font-size: 7rem;
+    }
+
+    .order-info p {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order-item {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .item-details {
+        text-align: center;
+    }
+
+    .return-button {
+        width: 100%;
+    }
+}

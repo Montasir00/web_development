@@ -1,26 +1,28 @@
-# Use the official PHP image
+# Use the official PHP image with Apache
 FROM php:8.4-apache
 
-# Install dependencies
+# Install required extensions and libraries
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     default-libmysqlclient-dev \
+    curl \
+    unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd mysqli
 
-# Enable mod_rewrite for Apache
+# Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
-# Set the working directory to /var/www/html
+# Set working directory
 WORKDIR /var/www/html
 
-# Copy the current directory contents into the container
+# Copy everything into the container
 COPY . .
 
-# Set permissions (make sure Apache can access files)
+# Give Apache access to all files
 RUN chown -R www-data:www-data /var/www/html
 
-# Expose port 80 (default HTTP port)
+# Expose Apache on port 80
 EXPOSE 80

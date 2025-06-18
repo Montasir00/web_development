@@ -66,7 +66,8 @@
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 62.5%; /*Sets base font size to 10px (62.5% of 16px). 
+  This makes it easier to use rem units (e.g., 1.6rem = 16px).*/
   overflow-x: hidden;
   scroll-behavior: smooth;
   scroll-padding-top: 7rem;
@@ -266,7 +267,6 @@ section {
 .header .navbar a:hover {
   color: var(--primary-green);
 }
-
 .header .navbar a::after {
   content: "";
   width: 100%;
@@ -420,6 +420,48 @@ section {
   text-align: right;
   font-size: 1.6rem;
   color: var(--black);
+}
+/* Add this to your style.css file - Empty Cart Message Styling */
+
+/* Empty Cart Message - Make text bigger */
+.header .shopping-cart .cart-items p {
+    font-size: 2rem !important; /* Much bigger text */
+    color: var(--black);
+    font-weight: 600;
+    text-align: center;
+    padding: 3rem 2rem;
+    margin: 0;
+    line-height: 1.4;
+    background: linear-gradient(135deg, #f9f9f9, #f0f0f0);
+    border-radius: 8px;
+    border: 2px dashed var(--primary-green);
+}
+
+/* Alternative: If you want to target only empty cart specifically */
+.header .shopping-cart .cart-items:empty::after {
+    content: "Your cart is empty.";
+    display: block;
+    font-size: 2.2rem;
+    color: var(--black);
+    font-weight: 700;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #f9f9f9, #f0f0f0);
+    border-radius: 12px;
+    border: 3px dashed var(--primary-green);
+    margin: 1rem 0;
+}
+
+/* Error message styling too */
+.header .shopping-cart .cart-items p:contains("Error loading cart") {
+    font-size: 1.8rem !important;
+    color: #c62828;
+    font-weight: 600;
+    text-align: center;
+    padding: 2rem;
+    background: #ffebee;
+    border-radius: 8px;
+    border: 2px solid #c62828;
 }
 
 .header .shopping-cart .total span {
@@ -906,6 +948,10 @@ section {
     margin: 0;
     text-align: left;
   }
+  .header .shopping-cart .cart-items p {
+        font-size: 1.8rem !important;
+        padding: 2.5rem 1.5rem;
+    }
 }
 
 
@@ -921,4 +967,8 @@ section {
   {
     text-align: center;
   }
+   .header .shopping-cart .cart-items p {
+        font-size: 1.6rem !important;
+        padding: 2rem 1rem;
+    }
 }

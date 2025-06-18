@@ -1,0 +1,74 @@
+# General ignores
+.DS_Store
+.idea/
+.vscode/
+*.log
+*.tmp
+*.swp
+*.env
+*.bak
+*.cache
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+node_modules/
+vendor/
+composer.lock
+package-lock.json
+yarn.lock
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Session and cache files
+/sessions/
+/cache/
+
+# Uploads directory
+/uploads/
+
+# Specific to your project
+/otp_storage/*
+!/otp_storage/.gitkeep
+
+
+
+
+# Image files (except icon.png)
+*.jpg
+*.jpeg
+*.png
+*.gif
+!/icon.png
+
+# CSS preprocessor files
+*.sass
+*.scss
+.css.map
+
+# IDE specific
+.htaccess
+*.sublime-workspace
+*.sublime-project
+
+# System files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Local development files
+docker-compose.local.yml
+docker-compose.dev.yml
+# Ignore all dotfiles except .gitignore and .htaccess
+.*
+!.gitignore
+!.htaccess
+
+# Keep empty directories
+!.gitkeep

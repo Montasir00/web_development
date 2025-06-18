@@ -19,22 +19,29 @@ if (!$data || !isset($data['cart_id'])) {
 }
 
 $cart_id = (int)$data['cart_id'];
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user']['id'];  
 
-// Make sure the cart item belongs to the logged-in user
-$sql = "DELETE FROM cart WHERE id = $cart_id AND user_id = $user_id";
+// Make sure the cart item belongs to the logged-in user - use prepared statement
+$stmt = mysqli_prepare($conn, "DELETE FROM cart WHERE id = ? AND user_id = ?");
+mysqli_stmt_bind_param($stmt, "ii", $cart_id, $user_id);
 
-if (mysqli_query($conn, $sql)) {
-    // Calculate the new cart total
-    $total_query = mysqli_query($conn, "SELECT SUM(c.quantity * p.price) AS total 
-                                      FROM cart c 
-                                      JOIN products p ON c.product_id = p.id 
-                                      WHERE c.user_id = $user_id");
-    $cart_total = mysqli_fetch_assoc($total_query)['total'] ?? 0;
+if (mysqli_stmt_execute($stmt)) {
+    // Calculate the new cart total - use prepared statement
+    $total_stmt = mysqli_prepare($conn, 
+        "SELECT 
+            SUM(c.quantity * p.price) AS total,
+            SUM(c.quantity) AS count
+         FROM cart c 
+         JOIN products p ON c.product_id = p.id 
+         WHERE c.user_id = ?"
+    );
+    mysqli_stmt_bind_param($total_stmt, "i", $user_id);
+    mysqli_stmt_execute($total_stmt);
+    $result = mysqli_stmt_get_result($total_stmt);
+    $row = mysqli_fetch_assoc($result);
     
-    // Get updated cart count
-    $cart_count = mysqli_query($conn, "SELECT SUM(quantity) AS total FROM cart WHERE user_id = $user_id");
-    $cart_count = mysqli_fetch_assoc($cart_count)['total'] ?? 0;
+    $cart_total = $row['total'] ?? 0;
+    $cart_count = $row['count'] ?? 0;
     
     echo json_encode([
         'success' => true, 
@@ -45,7 +52,7 @@ if (mysqli_query($conn, $sql)) {
 } else {
     echo json_encode([
         'success' => false, 
-        'message' => 'Error removing item: ' . mysqli_error($conn)
+        'message' => 'Error removing item from cart'
     ]);
 }
 exit;

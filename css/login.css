@@ -1,84 +1,176 @@
-/* Login Page Specific Styles */
+/* =======================================
+   Login Page Specific Styles
+======================================= */
 
-.login-form-container {
-    max-width: 500px;
-    margin: 10rem auto;
-    padding: 3rem 2.5rem;
-    background: #fff;
-    box-shadow: var(--box-shadow);
-    border-radius: 1rem;
-    border: var(--border);
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .login-form-container h1.heading {
-    text-align: center;
-    font-size: 3rem;
-    font-family: 'Montserrat', sans-serif;
-    color: var(--black);
-    margin-bottom: 2rem;
-  }
-  
-  .login-form-container .form-group {
-    margin-bottom: 1.5rem;
+/* Main container for login page */
+body {
+    padding-top: 10rem; /* Account for fixed header */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-  }
-  
-  .login-form-container label {
-    font-size: 1.6rem;
+}
+.login-form-container {
+    max-width: 500px;
+    margin: 8rem auto;
+    padding: 3.5rem 3rem; /* Increased vertical padding */
+    background: #fff;
+    box-shadow: var(--box-shadow);
+    border-radius: 1.2rem; /* Slightly larger radius */
+    border: var(--border);
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+}
+
+.login-form-container h1.heading,
+.login-form-container h1 {
+    text-align: center;
+    font-size: 2.8rem;
+    font-family: 'Montserrat', sans-serif;
     color: var(--black);
-    margin-bottom: 0.5rem;
-  }
-  
-  .login-form-container input.box {
-    padding: 1.2rem;
-    font-size: 1.6rem;
+    margin-bottom: 2.5rem; /* Increased spacing */
+    font-weight: 600; /* Added for better hierarchy */
+    letter-spacing: -0.5px; /* Slightly tighter letter spacing */
+}
+
+.form-group {
+    margin-bottom: 2rem; /* Increased spacing */
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem; /* Consistent gap between label and input */
+}
+
+label {
+    font-size: 1.5rem;
+    color: var(--black);
+    font-weight: 500; /* Medium weight for better readability */
+    margin-bottom: 0; /* Removed since we're using gap */
+}
+
+input.box,
+#telegram-email,
+#hidden-email,
+input[name="otp"] {
+    padding: 1.4rem 1.2rem; /* Slightly taller inputs */
+    font-size: 1.5rem;
     border: 1px solid var(--light-gray);
-    border-radius: 0.5rem;
+    border-radius: 0.6rem; /* Slightly more rounded */
     background: #f9f9f9;
-    transition: border-color 0.3s;
-  }
-  
-  .login-form-container input.box:focus {
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+    width: 100%; /* Ensure full width */
+    box-sizing: border-box; /* Include padding in width */
+}
+
+input.box:focus,
+#telegram-email:focus,
+input[name="otp"]:focus {
     border-color: var(--primary-green);
-  }
-  
-  .login-form-container input.btn {
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2); /* Subtle focus glow */
+    outline: none; /* Remove default outline */
+    background: #fff; /* White background when focused */
+}
+
+input.btn,
+#send-otp-btn {
     background: var(--primary-green);
     color: #fff;
-    padding: 1.2rem;
-    font-size: 1.7rem;
+    padding: 1.4rem; /* Taller button */
+    font-size: 1.6rem;
+    font-weight: 600; /* Bolder text */
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.6rem;
     cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .login-form-container input.btn:hover {
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 0.5rem; /* Consistent top margin */
+    text-transform: uppercase; /* Optional: for button text */
+    letter-spacing: 0.5px;
+}
+
+input.btn:hover,
+#send-otp-btn:hover {
     background: #1e8d52;
-  }
-  
-  .login-form-container p {
+    transform: translateY(-1px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow on hover */
+}
+
+p {
     text-align: center;
     font-size: 1.4rem;
     color: var(--dark-gray);
-    margin-top: 1rem;
-  }
-  
-  .login-form-container p a {
+    margin-top: 1.5rem; /* Increased spacing */
+    line-height: 1.6; /* Better readability */
+}
+
+p a {
     color: var(--primary-green);
+    text-decoration: none; /* Changed from underline */
+    font-weight: 600; /* Bolder links */
+    transition: color 0.3s ease;
+}
+
+p a:hover {
     text-decoration: underline;
-    font-weight: 500;
-  }
-  
-  .error-message {
-    color: red;
-    background: #ffe0e0;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
+    color: #1e8d52; /* Darker shade on hover */
+}
+
+.error-message,
+.success-message {
     text-align: center;
-    font-size: 1.5rem;
-  }
-  
+    padding: 1.2rem; /* Slightly more padding */
+    font-size: 1.4rem;
+    margin-bottom: 2rem; /* Increased spacing */
+    border-radius: 0.6rem;
+    line-height: 1.5;
+}
+
+.error-message {
+    color: #d32f2f; /* Material red */
+    background: #ffebee; /* Lighter red background */
+    border: 1px solid #ef9a9a; /* Softer red border */
+}
+
+.success-message {
+    color: #388e3c; /* Material green */
+    background: #e8f5e9; /* Lighter green background */
+    border: 1px solid #a5d6a7; /* Softer green border */
+}
+
+#telegram-login {
+    margin: 3rem auto 2rem; /* More top margin */
+    padding: 2.5rem 2rem; /* More padding */
+    background: #fafafa;
+    border-radius: 1rem;
+    box-shadow: var(--box-shadow);
+    max-width: 500px;
+    border: 1px solid #eee; /* Added subtle border */
+}
+
+#otp-step {
+    margin-top: 2rem; /* Increased spacing */
+    animation: fadeIn 0.4s ease; /* Smooth appearance */
+}
+
+/* Animation for OTP step */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .login-form-container {
+        margin: 4rem auto;
+        padding: 2.5rem 2rem;
+        border-radius: 0.8rem;
+    }
+    
+    .login-form-container h1.heading,
+    .login-form-container h1 {
+        font-size: 2.4rem;
+    }
+    
+    input.btn,
+    #send-otp-btn {
+        padding: 1.3rem;
+    }
+}

@@ -55,29 +55,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
   // Function to attach event listeners to remove buttons
-  function attachRemoveFromCartListeners() {
-      document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
-          button.addEventListener('click', function () {
-              const cartId = this.dataset.cartId;
-              fetch('includes/remove_from_cart.php', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ cart_id: cartId })
-              })
-              .then(response => response.json())
-              .then(data => {
-                  if (data.success) {
-                      alert('Item removed from cart successfully!');
-                      displayCartItems(); // Re-render the cart
-                      updateCartCount(data.cart_count); // Update header cart count
-                  } else {
-                      alert(data.message || 'Error removing item from cart.');
-                  }
-              })
-              .catch(error => console.error('Error:', error));
-          });
-      });
-  }
+  document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const cartId = this.dataset.cartId;
+
+        fetch('includes/remove_from_cart.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cart_id: cartId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Item removed from cart successfully!');
+                displayCartItems(); // Re-render the cart
+                updateCartCount(data.cart_count); // Update header cart count
+            } else {
+                alert(data.message || 'Error removing item from cart.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
 
   // Only set event handlers if elements exist
   if (searchBtn && searchForm) {
@@ -234,4 +233,105 @@ function updateCartTotal(total) {
   if (totalElement) {
       totalElement.textContent = `Total: $${parseFloat(total).toFixed(2)}`;
   }
+}
+
+// Add this before the DOMContentLoaded event handler ends
+function attachRemoveFromCartListeners() {
+    document.querySelectorAll('.remove-from-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const cartId = this.dataset.cartId;
+            
+            fetch('includes/remove_from_cart.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cart_id: cartId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    displayCartItems(); // Re-render the cart
+                    updateCartCount(data.cart_count); // Update header cart count
+                } else {
+                    alert(data.message || 'Error removing item from cart.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+}
+
+
+
+
+// Add this inside your DOMContentLoaded event listener
+
+// Login Tab Switching
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const targetTab = this.dataset.tab;
+        
+        // Remove active class from all tabs and sections
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.login-section').forEach(s => s.classList.remove('active'));
+        
+        // Add active class to clicked tab and corresponding section
+        this.classList.add('active');
+        document.getElementById(targetTab).classList.add('active');
+    });
+});
+
+// Telegram OTP Login
+const sendOtpBtn = document.getElementById('send-otp-btn');
+const backToEmailBtn = document.getElementById('back-to-email');
+const emailStep = document.getElementById('email-step');
+const otpStep = document.getElementById('otp-step');
+
+if (sendOtpBtn) {
+    sendOtpBtn.addEventListener('click', function() {
+        const email = document.getElementById('telegram-email').value.trim();
+        
+        if (!email) {
+            alert('Please enter your email address');
+            return;
+        }
+        
+        // Show loading
+        this.value = 'Sending...';
+        this.disabled = true;
+        
+        fetch('includes/send_otp.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: email })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Switch to OTP step
+                emailStep.style.display = 'none';
+                otpStep.style.display = 'block';
+                document.getElementById('hidden-email').value = email;
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to send OTP. Please try again.');
+        })
+        .finally(() => {
+            this.value = 'Send OTP';
+            this.disabled = false;
+        });
+    });
+}
+
+if (backToEmailBtn) {
+    backToEmailBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        emailStep.style.display = 'block';
+        otpStep.style.display = 'none';
+        document.querySelector('input[name="otp"]').value = '';
+    });
 }

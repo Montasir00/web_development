@@ -24,8 +24,9 @@ if (isLoggedIn()) {
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/css/style.css">
     <link rel="stylesheet" type="text/css" href="/css/manage_products.css">
-    <link rel="stylesheet" type="text/css" href="../css/add_products.css">
-    <link rel="stylesheet" type="text/css" href="../css/add_new_user.css">
+    <link rel="stylesheet" type="text/css" href="/css/add_products.css">
+    <link rel="stylesheet" type="text/css" href="/css/add_new_user.css">
+    <link rel="stylesheet" type="text/css" href="/css/blog_details.css">
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/script.js" defer></script>
@@ -82,21 +83,38 @@ if (isLoggedIn()) {
         </div>
 
         <?php if (!isLoggedIn()): ?>
-        <form action="/includes/login_handler.php" method="POST" class="login-form">
-            <h3>Login now</h3>
-            <?php if (isset($_SESSION['login_error'])): ?>
-                <div class="error-message"><?php echo htmlspecialchars($_SESSION['login_error']); ?></div>
-                <?php unset($_SESSION['login_error']); // Clear the error after displaying ?>
-            <?php endif; ?>
-            <input type="email" name="email" placeholder="Enter your email" class="box" required>
-            <input type="password" name="password" placeholder="Enter your password" class="box" required>
-            <p>Forgot your Password? 
-               <a href="/forgot_password.php">Click Here</a>
-            </p>
-            <p>Don't have an Account? 
-               <a href="/register.php">Create Now</a>
-            </p>
-            <input type="submit" name="login" value="Login Now" class="btn">
+        <!-- Update your login form in header -->
+        <form action="includes/login_handler.php" method="POST" class="login-form">
+            <h3>Login</h3>
+            
+            <!-- Login Method Tabs -->
+            <div class="login-tabs">
+                <button type="button" class="tab-btn active" data-tab="email-login">Email Login</button>
+                <button type="button" class="tab-btn" data-tab="telegram-login">Telegram OTP</button>
+            </div>
+            
+            <!-- Email/Password Login -->
+            <div id="email-login" class="login-section active">
+                <input type="email" placeholder="Enter your email" class="box" name="email" required>
+                <input type="password" placeholder="Enter your password" class="box" name="password" required>
+                <input type="submit" value="Login" class="btn" name="login">
+                <p>Don't have an account? <a href="register.php">Create one</a></p>
+            </div>
+            
+            <!-- Telegram OTP Login -->
+            <div id="telegram-login" class="login-section">
+                <div id="email-step">
+                    <input type="email" placeholder="Enter your email" class="box" id="telegram-email" required>
+                    <input type="button" value="Send OTP" class="btn" id="send-otp-btn">
+                </div>
+                <div id="otp-step" style="display: none;">
+                    <input type="email" id="hidden-email" name="email" style="display: none;">
+                    <input type="text" placeholder="Enter OTP from Telegram" class="box" name="otp" maxlength="6" required>
+                    <input type="submit" value="Verify & Login" class="btn" name="telegram_login">
+                    <p><a href="#" id="back-to-email">← Back to email</a></p>
+                </div>
+                <p>Check your Telegram for OTP</p>
+            </div>
         </form>
         <?php endif; ?>
     </header>

@@ -1,0 +1,487 @@
+/* =======================================
+   Payment Page Specific Styles
+======================================= */
+
+/* Payment Container */
+.payment-verification {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+/* Order Summary Section */
+.order-summary {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 3rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    border: 2px solid var(--light-gray);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.order-summary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-green), #1e8a50);
+}
+
+.order-summary h2 {
+    font-size: 2.4rem;
+    margin-bottom: 2rem;
+    color: var(--black);
+    text-align: center;
+    border: none;
+    padding: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.order-summary h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--primary-green);
+    border-radius: 2px;
+}
+
+.order-summary p {
+    font-size: 1.7rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--light-gray);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-summary p:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.order-summary p:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.order-summary p strong {
+    color: var(--black);
+    font-weight: 600;
+    min-width: 150px;
+}
+
+/* OTP Verification Section */
+.otp-verification {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    border: 2px solid var(--light-gray);
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.otp-verification::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-green), #1e8a50);
+}
+
+.otp-verification h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--black);
+    border: none;
+    padding: 0;
+    font-size: 2.4rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+}
+
+.otp-verification h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--primary-green);
+    border-radius: 2px;
+}
+
+.otp-verification > p {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.6rem;
+    color: var(--dark-gray);
+    line-height: 1.6;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-green);
+}
+
+/* Form Styling */
+.otp-verification form {
+    margin-bottom: 2rem;
+}
+
+.otp-verification .form-group {
+    margin-bottom: 2.5rem;
+}
+
+/* BIG OTP LABEL */
+.otp-verification label {
+    display: block;
+    font-size: 2.4rem !important;
+    color: var(--black);
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-green);
+    position: relative;
+    box-shadow: 0 4px 12px rgba(34, 165, 95, 0.2);
+}
+
+.otp-verification label[for="otp"]::before {
+    content: '🔐';
+    font-size: 2.5rem;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+/* BIG OTP INPUT */
+.otp-verification input[type="text"]#otp,
+.otp-verification .box {
+    width: 100%;
+    padding: 2rem 1.5rem;
+    font-size: 2.4rem !important;
+    border: 3px solid var(--primary-green);
+    border-radius: 12px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    letter-spacing: 4px;
+    font-weight: 700;
+    color: var(--black);
+    max-width: 300px;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 4px 12px rgba(34, 165, 95, 0.1);
+}
+
+.otp-verification input[type="text"]:focus,
+.otp-verification .box:focus {
+    border-color: #1e8a50;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(34, 165, 95, 0.3);
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+}
+
+.otp-verification input[type="text"]::placeholder,
+.otp-verification .box::placeholder {
+    color: #999;
+    font-weight: 400;
+    letter-spacing: 2px;
+    font-size: 2rem;
+}
+
+/* Button Styling */
+.otp-verification .btn {
+    width: 100%;
+    padding: 1.8rem;
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, var(--primary-green), #1e8a50);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-top: 1rem;
+    box-shadow: 0 6px 15px rgba(34, 165, 95, 0.3);
+}
+
+.otp-verification .btn:hover {
+    background: linear-gradient(135deg, #1e8a50, #0d5a2b);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(34, 165, 95, 0.4);
+}
+
+/* Send OTP Button */
+.otp-verification form:first-of-type .btn {
+    background: linear-gradient(135deg, var(--primary-green), #1e8a50);
+    margin-bottom: 2rem;
+}
+
+.otp-verification form:first-of-type .btn:hover {
+    background: linear-gradient(135deg, #1e8a50, #0d5a2b);
+    box-shadow: 0 10px 25px rgba(34, 165, 95, 0.4);
+}
+
+/* Note Styling */
+.note {
+    font-size: 1.5rem;
+    color: var(--dark-gray);
+    font-style: italic;
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #fff9e6, #fff4d6);
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-green);
+    line-height: 1.6;
+    position: relative;
+    padding-left: 4rem;
+    box-shadow: 0 4px 12px rgba(34, 165, 95, 0.1);
+}
+
+.note::before {
+    content: '⏰';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 1.8rem;
+    color: var(--primary-green);
+}
+
+/* FIXED ERROR MESSAGES - Main Fix for "OTP not found or expired" */
+.error-message {
+    background: linear-gradient(135deg, #ffebee, #ffcdd2);
+    color: #c62828;
+    padding: 2rem;
+    border-left: 5px solid #c62828;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    font-size: 1.8rem !important;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(198, 40, 40, 0.3);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    animation: shake 0.5s ease-in-out;
+}
+
+.error-message::before {
+    content: '⚠️';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 2.2rem;
+}
+
+.error-message {
+    padding-left: 4.5rem;
+}
+
+/* SUCCESS MESSAGES */
+.success-message {
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c9);
+    color: var(--primary-green);
+    padding: 2rem;
+    border-left: 5px solid var(--primary-green);
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    font-size: 1.8rem !important;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(34, 165, 95, 0.3);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    padding-left: 4.5rem;
+}
+
+.success-message::before {
+    content: '✅';
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 2.2rem;
+}
+
+/* Payment specific error/success overrides */
+.payment-verification .error-message {
+    font-size: 1.8rem !important;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.payment-verification .success-message {
+    font-size: 1.8rem !important;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Shake animation for errors */
+@keyframes shake {
+    0%, 20%, 40%, 60%, 80% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .payment-verification {
+        padding: 1.5rem;
+        gap: 2rem;
+    }
+    
+    .order-summary,
+    .otp-verification {
+        padding: 2rem;
+    }
+    
+    .order-summary h2,
+    .otp-verification h2 {
+        font-size: 2rem;
+    }
+    
+    .order-summary p {
+        font-size: 1.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .order-summary p strong {
+        min-width: auto;
+    }
+    
+    .otp-verification label {
+        font-size: 2rem !important;
+        padding: 1.2rem;
+    }
+    
+    .otp-verification input[type="text"]#otp,
+    .otp-verification .box {
+        font-size: 2rem !important;
+        padding: 1.5rem;
+        letter-spacing: 3px;
+    }
+    
+    .otp-verification .btn {
+        font-size: 1.6rem;
+        padding: 1.5rem;
+    }
+    
+    .note {
+        font-size: 1.3rem;
+        padding: 1.2rem;
+        padding-left: 3.5rem;
+    }
+    
+    .error-message,
+    .success-message {
+        font-size: 1.6rem !important;
+        padding: 1.5rem;
+        padding-left: 4rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-verification {
+        padding: 1rem;
+    }
+    
+    .order-summary,
+    .otp-verification {
+        padding: 1.5rem;
+    }
+    
+    .order-summary h2,
+    .otp-verification h2 {
+        font-size: 1.8rem;
+    }
+    
+    .order-summary p {
+        font-size: 1.4rem;
+        padding: 0.8rem 1rem;
+    }
+    
+    .otp-verification label {
+        font-size: 1.8rem !important;
+        padding: 1rem;
+    }
+    
+    .otp-verification input[type="text"]#otp,
+    .otp-verification .box {
+        font-size: 1.8rem !important;
+        padding: 1.2rem;
+        letter-spacing: 2px;
+    }
+    
+    .otp-verification .btn {
+        font-size: 1.5rem;
+    }
+    
+    .otp-verification label[for="otp"]::before {
+        font-size: 2rem;
+    }
+    
+    .error-message,
+    .success-message {
+        font-size: 1.4rem !important;
+        padding: 1.2rem;
+        padding-left: 3.5rem;
+    }
+}
+
+/* Page Load Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.payment-verification {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.order-summary {
+    animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.otp-verification {
+    animation: fadeInUp 0.6s ease 0.4s both;
+}

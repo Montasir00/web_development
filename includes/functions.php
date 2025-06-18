@@ -15,6 +15,7 @@ function getReviews($conn, $limit = 3) {
 
 // Fetch blog posts from the database
 function getBlogs($conn, $limit = 3) {
+    $limit = intval($limit); // Ensure $limit is an integer
     $sql = "SELECT * FROM blogs ORDER BY id DESC LIMIT $limit";
     $result = mysqli_query($conn, $sql);
     return $result;
@@ -29,13 +30,18 @@ function getFeatures($conn, $limit = 3) {
 
 // Get cart items for the logged-in user
 function getCartItems($conn) {
-    if (isset($_SESSION['user_id'])) {
-        $user_id = (int) $_SESSION['user_id'];
-        $sql = "SELECT c.*, p.name, p.price, p.image 
-                FROM cart c 
-                JOIN products p ON c.product_id = p.id 
-                WHERE c.user_id = $user_id"; // Filter by logged-in user
-        $result = mysqli_query($conn, $sql);
+    if (isset($_SESSION['user']['id'])) {
+        $user_id = $_SESSION['user']['id'];
+        
+        $sql = "SELECT c.*, p.name, p.price, p.image, p.id AS product_id
+                FROM cart c
+                JOIN products p ON c.product_id = p.id
+                WHERE c.user_id = ?";
+                
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $user_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         return $result;
     }
     return false;
@@ -54,6 +60,24 @@ function getCartTotal($conn) {
 }
 function isLoggedIn() {
     return isset($_SESSION['user']['id']);
+}
+
+function getCurrentUser() {
+    if (isset($_SESSION['user']['id'])) {
+        global $conn;
+        $user_id = $_SESSION['user']['id'];
+        
+        // Fetch complete user data from the database
+        $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE id = ?");
+        mysqli_stmt_bind_param($stmt, "i", $user_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        if ($row = mysqli_fetch_assoc($result)) {
+            return $row; // Return complete user data
+        }
+    }
+    return isset($_SESSION['user']) ? $_SESSION['user'] : null;
 }
 
 function displayMessage() {
@@ -93,5 +117,4 @@ function getProductById($conn, $product_id) {
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     return $result; // Return the mysqli_result object
-}
-?>
+} 

@@ -57,7 +57,6 @@
 /* Select Dropdown Styles */
 .add-user form select {
     appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23ccc" d="M2 0L0 2h4z"/></svg>');
     background-repeat: no-repeat;
     background-position: right 1rem center;
     background-size: 1rem;

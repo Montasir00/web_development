@@ -1,17 +1,22 @@
+version: '3.9'
+
 services:
-  # PHP/Apache service
   web:
     build: .
     ports:
-      - "8081:80" # Changed host port to 8081
+      - "8081:80"
     volumes:
       - .:/var/www/html
+      - ./otp_storage:/var/www/html/otp_storage 
     depends_on:
       - db
     networks:
       - bloom_network
+    env_file:
+      - .env  
 
-  # MySQL service
+
+  # MySQL Database
   db:
     image: mysql:5.7
     environment:
@@ -20,21 +25,21 @@ services:
       MYSQL_USER: bloomuser
       MYSQL_PASSWORD: bloompassword
     ports:
-      - "3307:3306" # Changed host port to 3307
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     networks:
       - bloom_network
 
-  # phpMyAdmin service
+  # phpMyAdmin
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     environment:
-      PMA_HOST: db # Link to the MySQL service
+      PMA_HOST: db
       PMA_USER: bloomuser
       PMA_PASSWORD: bloompassword
     ports:
-      - "8082:80" # Changed host port to 8082
+      - "8082:80"
     depends_on:
       - db
     networks:
