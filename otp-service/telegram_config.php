@@ -1,6 +1,6 @@
 <?php
-// filepath: c:\Users\fazlu\OneDrive\Desktop\projects\web_developmet\includes\telegram_config.php
-require_once __DIR__ . '/init.php';
+// filepath: c:\Users\fazlu\OneDrive\Desktop\projects\web_developmet\otp-service\telegram_config.php
+require_once __DIR__ . '/../includes/init.php';
 
 // Load environment variables
 function loadTelegramEnv() {
@@ -23,8 +23,8 @@ loadTelegramEnv();
 function sendTelegramOTP($email, $otp) {
     global $conn;
     
-    $token = "7151167341:AAEgHFNm1zwluKo-LnFROLL9aQ2-Kl6IyCg"; // Your bot token
-    $admin_chat_id = getenv('TELEGRAM_CHAT_ID'); // Your chat_id from .env
+    $token = "7151167341:AAEgHFNm1zwluKo-LnFROLL9aQ2-Kl6IyCg"; // bot token
+    $admin_chat_id = getenv('TELEGRAM_CHAT_ID'); // chat_id from .env
     
     if (!$token) {
         error_log("Telegram token not found");

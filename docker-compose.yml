@@ -44,7 +44,19 @@ services:
       - db
     networks:
       - bloom_network
-
+  otp-service:
+      build:
+        context: ./otp-service  # separate folder for OTP code
+      ports:
+        - "8083:80"  # for local testing
+      volumes:
+        - ./otp-service:/var/www/html
+      environment:
+        TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      depends_on:
+        - db
+      networks:
+        - bloom_network
 volumes:
   mysql_data:
 

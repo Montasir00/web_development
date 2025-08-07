@@ -64,7 +64,7 @@ input[name="otp"]:focus {
 
 input.btn,
 #send-otp-btn {
-    background: linear-gradient(90deg, #28a745, #218838);
+    background: var(--primary-green);
     color: #fff;
     padding: 1.2rem;
     font-size: 1.6rem;
@@ -110,9 +110,9 @@ p a {
 }
 
 .success-message {
-    color: green;
+    color: var(--primary-green);
     background: #e0ffe0;
-    border: 1px solid green;
+    border: 1px solid var(--primary-green);
 }
 
 #telegram-login {
@@ -131,4 +131,102 @@ p a {
 /* Optional background */
 body {
     background: linear-gradient(120deg, #f9f9f9, #f1f1f1);
+}
+
+.telegram-info {
+    background: #e8f4fd;
+    border: 1.5px solid #bee5eb;
+    border-radius: 1rem;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 1.35rem;
+    box-shadow: 0 2px 12px rgba(34, 165, 95, 0.06);
+    color: var(--dark-gray);
+}
+
+.telegram-info h4 {
+    margin-top: 0;
+    color: var(--primary-green);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.simple-steps {
+    background: #d1ecf1;
+    padding: 0.8rem 1rem;
+    border-radius: 0.6rem;
+    border-left: 4px solid var(--primary-green);
+    margin: 1rem 0 1.2rem 0;
+    font-size: 1.25rem;
+    color: var(--dark-gray);
+}
+
+.simple-steps strong {
+    color: var(--primary-green);
+}
+
+.optional-label {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.bot-highlight {
+    background: #fff3cd;
+    padding: 0.4rem 0.7rem;
+    border-radius: 0.4rem;
+    display: inline-block;
+    margin: 0.4rem 0;
+    font-size: 1.15rem;
+    color: #856404;
+    font-weight: 600;
+}
+
+.qr-bot {
+    text-align: center;
+    margin: 1.2rem 0 0.5rem 0;
+}
+
+.qr-bot img {
+    margin-top: 6px;
+    width: 400px;
+    height: 600px;
+    border: 1.5px solid #bee5eb;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(34, 165, 95, 0.08);
+    background: #fff;
+    display: inline-block;
+}
+
+.qr-bot small,
+.qr-bot a {
+    font-size: 1.1rem;
+    color: var(--primary-green);
+    text-decoration: underline;
+}
+
+#bot-status {
+    display: none;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    background: #f8f9fa;
+    color: var(--dark-gray);
+}
+    .error-message {
+        color: #dc3545;
+        font-size: 1.15rem;
+        margin-top: 0.3rem;
+    }
+@media (max-width: 600px) {
+    .telegram-info {
+        font-size: 1.1rem;
+        padding: 1rem;
+    }
+    .qr-bot img {
+        width: 80px;
+        height: 80px;
+    }
 }

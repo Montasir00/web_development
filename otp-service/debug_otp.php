@@ -1,7 +1,7 @@
 <?php
-// filepath: c:\Users\fazlu\OneDrive\Desktop\projects\web_developmet\debug_otp.php
-require_once __DIR__ . '/includes/init.php';
-require_once __DIR__ . '/mfa/utils.php';
+// filepath: c:\Users\fazlu\OneDrive\Desktop\projects\web_developmet\otp_service\debug_otp.php
+require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/mfa/utils.php';
 
 echo "<h1>🔐 Enhanced OTP System Debug Tool</h1>";
 

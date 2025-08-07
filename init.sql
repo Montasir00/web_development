@@ -1,61 +1,46 @@
 -- Create and use the database
-CREATE DATABASE IF NOT EXISTS bloom_basket;
-USE bloom_basket;
+-- Drop tables if they exist (for clean re-import)
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS cart;
+DROP TABLE IF EXISTS otp_storage;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS blogs;
+DROP TABLE IF EXISTS features;
 
 -- Users table
-    CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL UNIQUE,
-        password VARCHAR(255) NOT NULL,
-        address TEXT,
-        phone VARCHAR(20),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('user','admin') NOT NULL DEFAULT 'user',
+    telegram_chat_id VARCHAR(64),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- OTP storage table
+CREATE TABLE otp_storage (
+    username VARCHAR(255) NOT NULL PRIMARY KEY,
+    otp VARCHAR(6) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Products table
-CREATE TABLE IF NOT EXISTS products (
+CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    price DECIMAL(10, 2) NOT NULL,
-    image VARCHAR(255) NOT NULL,
-    category VARCHAR(50) NOT NULL,
-    stock INT NOT NULL DEFAULT 0,
-    rating DECIMAL(3, 1) DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Features table
-CREATE TABLE IF NOT EXISTS features (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    description TEXT NOT NULL,
-    image VARCHAR(255) NOT NULL
-);
-
--- Reviews table
-CREATE TABLE IF NOT EXISTS reviews (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    image VARCHAR(255) NOT NULL,
-    rating DECIMAL(3, 1) NOT NULL,
-    comment TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Blogs table
-CREATE TABLE IF NOT EXISTS blogs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
-    content TEXT NOT NULL,
-    image VARCHAR(255) NOT NULL,
-    author VARCHAR(255) DEFAULT 'Admin',
+    price DECIMAL(10,2) NOT NULL,
+    image VARCHAR(255),
+    rating FLOAT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Cart table
-CREATE TABLE IF NOT EXISTS cart (
+CREATE TABLE cart (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     product_id INT NOT NULL,
@@ -65,37 +50,76 @@ CREATE TABLE IF NOT EXISTS cart (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
+-- Reviews table
+CREATE TABLE reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    image VARCHAR(255),
+    rating FLOAT NOT NULL,
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Blogs table
+CREATE TABLE blogs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(100) NOT NULL,
+    image VARCHAR(255),
+    content TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Features table
+CREATE TABLE features (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Orders table
-CREATE TABLE IF NOT EXISTS orders (
+CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    total_amount DECIMAL(10, 2) NOT NULL,
-    shipping_address TEXT NOT NULL,
-    payment_method VARCHAR(50) NOT NULL,
-    status VARCHAR(50) DEFAULT 'pending',
+    total_amount DECIMAL(10,2) NOT NULL,
+    payment_method VARCHAR(50),
+    shipping_address VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 -- Order items table
-CREATE TABLE IF NOT EXISTS order_items (
+CREATE TABLE order_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
     product_id INT NOT NULL,
     quantity INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
 
--- Newsletter subscribers
-CREATE TABLE IF NOT EXISTS subscribers (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Indexes for performance
+CREATE INDEX idx_cart_user ON cart(user_id);
+CREATE INDEX idx_cart_product ON cart(product_id);
+CREATE INDEX idx_order_user ON orders(user_id);
+CREATE INDEX idx_orderitem_order ON order_items(order_id);
+CREATE INDEX idx_orderitem_product ON order_items(product_id);
+CREATE INDEX idx_product_name ON products(name);
+CREATE INDEX idx_review_name ON reviews(name);
+CREATE INDEX idx_blog_title ON blogs(title);
 
--- Insert sample data
+-- Sample admin user (password: admin123, hashed)
+INSERT INTO users (name, email, password, role)
+VALUES (
+    'Admin',
+    'admin@bloombasket.com',
+    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', -- password: admin123
+    'admin'
+);
 -- Sample Users (password is "password123" hashed)
 INSERT INTO users (name, email, password, address, phone) VALUES
 ('John Doe', 'john@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '123 Main St, Anytown', '+1234567890'),

@@ -75,7 +75,6 @@ if (isLoggedIn()) {
 
         <div class="shopping-cart">
             <div class="cart-items">
-                <!-- Cart items will be dynamically managed by JavaScript -->
                 <i class="fa fa-trash-o remove-from-cart-btn" data-cart-id="item.id"></i>
             </div>
             <div class="total">Total: $0.00</div>
@@ -83,38 +82,15 @@ if (isLoggedIn()) {
         </div>
 
         <?php if (!isLoggedIn()): ?>
-        <!-- Update your login form in header -->
+       
         <form action="includes/login_handler.php" method="POST" class="login-form">
             <h3>Login</h3>
-            
-            <!-- Login Method Tabs -->
-            <div class="login-tabs">
-                <button type="button" class="tab-btn active" data-tab="email-login">Email Login</button>
-                <button type="button" class="tab-btn" data-tab="telegram-login">Telegram OTP</button>
-            </div>
-            
-            <!-- Email/Password Login -->
-            <div id="email-login" class="login-section active">
-                <input type="email" placeholder="Enter your email" class="box" name="email" required>
-                <input type="password" placeholder="Enter your password" class="box" name="password" required>
-                <input type="submit" value="Login" class="btn" name="login">
-                <p>Don't have an account? <a href="register.php">Create one</a></p>
-            </div>
-            
-            <!-- Telegram OTP Login -->
-            <div id="telegram-login" class="login-section">
-                <div id="email-step">
-                    <input type="email" placeholder="Enter your email" class="box" id="telegram-email" required>
-                    <input type="button" value="Send OTP" class="btn" id="send-otp-btn">
-                </div>
-                <div id="otp-step" style="display: none;">
-                    <input type="email" id="hidden-email" name="email" style="display: none;">
-                    <input type="text" placeholder="Enter OTP from Telegram" class="box" name="otp" maxlength="6" required>
-                    <input type="submit" value="Verify & Login" class="btn" name="telegram_login">
-                    <p><a href="#" id="back-to-email">← Back to email</a></p>
-                </div>
-                <p>Check your Telegram for OTP</p>
-            </div>
+
+        <!-- Email/Password Login -->
+        <div id="email-login" class="login-section active">
+            <p>Have an account? <a href="login.php">Login</a></p>
+            <p>Don't have an account? <a href="register.php">Create one</a></p>
+        </div>
         </form>
         <?php endif; ?>
     </header>

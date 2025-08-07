@@ -10,4 +10,5 @@ include 'includes/cta.php';
 include 'includes/reviews.php';
 include 'includes/blogs.php';
 include 'includes/footer.php';
+
 ?>

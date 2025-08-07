@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/includes/init.php';
-require_once __DIR__ . '/includes/telegram_config.php';
+require_once __DIR__ . '/otp-service/telegram_config.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -8,10 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $error = '';
 $success = '';
-$showOtpSection = false;
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Step 1: Traditional login
     if (isset($_POST['login'])) {
         $email = sanitize($_POST['email']);
         $password = sanitize($_POST['password']);
@@ -30,53 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['pending_email'] = $email;
                     $_SESSION['pending_role'] = $user['role'];
                     $_SESSION['pending_name'] = $user['name'];
-                    $showOtpSection = true;
-                    $success = "Login successful. Please check your Telegram for OTP.";
+                    $success = "Login successful. Click 'Send OTP' to receive your verification code.";
+                    header("Location: otp.php");
+                    exit;
                 } else {
                     $error = "Invalid email or password.";
                 }
             } else {
                 $error = "No account found with that email address.";
-            }
-        }
-    }
-
-    // Step 2: OTP verification
-    if (isset($_POST['telegram_login'])) {
-        $email = sanitize($_POST['email']);
-        $entered_otp = sanitize($_POST['otp']);
-
-        if (empty($email) || empty($entered_otp)) {
-            $error = "Please enter both email and OTP.";
-            $showOtpSection = true;
-        } else {
-            if (verifyTelegramOTP($email, $entered_otp)) {
-                $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-                $stmt->bind_param("s", $email);
-                $stmt->execute();
-                $result = $stmt->get_result();
-
-                if ($result->num_rows > 0) {
-                    $user = $result->fetch_assoc();
-                    $_SESSION['user'] = [
-                        'id' => $user['id'],
-                        'name' => $user['name'],
-                        'email' => $user['email'],
-                        'role' => $user['role'],
-                        'login_method' => 'telegram'
-                    ];
-
-                    session_regenerate_id(true);
-
-                    header("Location: " . ($user['role'] === 'admin' ? 'admin_dashboard.php' : 'index.php'));
-                    exit;
-                } else {
-                    $error = "Account not found.";
-                    $showOtpSection = true;
-                }
-            } else {
-                $error = "Invalid or expired OTP.";
-                $showOtpSection = true;
             }
         }
     }
@@ -87,30 +45,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login with OTP</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="/css/style.css">   
     <link rel="stylesheet" type="text/css" href="/css/login.css">   
-    <script src="js/script.js" defer></script>
 </head>
 <body>
- <?php include 'includes/header.php'; ?>
-<h1>🔐 Login with OTP</h1>
+    <?php include 'includes/header.php'; ?>
 
-<?php if ($error): ?>
-    <div class="error-message"><?= htmlspecialchars($error) ?></div>
-<?php endif; ?>
+    <h1>🔐 Login</h1>
 
-<?php if ($success): ?>
-    <div class="success-message"><?= htmlspecialchars($success) ?></div>
-<?php endif; ?>
+    <?php if ($error): ?>
+        <div class="error-message"><?= htmlspecialchars($error) ?></div>
+    <?php elseif ($success): ?>
+        <div class="success-message"><?= htmlspecialchars($success) ?></div>
+    <?php endif; ?>
 
-<!-- Login form (Step 1) -->
-<?php if (!$showOtpSection): ?>
     <form method="POST">
         <div class="form-group">
             <label>Email:</label>
-            <input type="email" name="email" placeholder="Enter your email" class="box" required>
+            <input type="email" name="email" id="login-email" placeholder="Enter your email" class="box" required>
         </div>
         <div class="form-group">
             <label>Password:</label>
@@ -120,36 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="submit" value="Login" class="btn" name="login">
         </div>
     </form>
-<?php endif; ?>
 
-<!-- OTP form (Step 2) -->
-<?php if ($showOtpSection): ?>
-    <div id="telegram-login">
-        <div id="email-step">
-            <input type="email" class="box" id="telegram-email" value="<?= htmlspecialchars($_SESSION['pending_email']) ?>" readonly>
-            <input type="button" value="Send OTP" class="btn" id="send-otp-btn">
-        </div>
-
-        <form method="POST" id="otp-step">
-            <input type="hidden" name="email" id="hidden-email" value="<?= htmlspecialchars($_SESSION['pending_email']) ?>">
-            <div class="form-group">
-                <label>OTP:</label>
-                <input type="text" name="otp" placeholder="Enter OTP from Telegram" class="box" maxlength="6" required>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Verify & Login" class="btn" name="telegram_login">
-            </div>
-            <p><a href="#" id="back-to-email">← Back to email</a></p>
-        </form>
-        <p>Check your Telegram for OTP</p>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('email-step').style.display = 'block';
-            document.getElementById('otp-step').style.display = 'none';
-        });
-    </script>
-<?php endif; ?>
- <?php include 'includes/footer.php'; ?>
+    <?php include 'includes/footer.php'; ?>
 </body>
 </html>

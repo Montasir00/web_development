@@ -1,5 +1,4 @@
 <?php
-// filepath: c:\Users\fazlu\OneDrive\Desktop\projects\web_developmet\register.php
 require_once __DIR__ . '/includes/init.php';
 
 $error = '';
@@ -22,25 +21,29 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $error = "Invalid email format";
     } elseif($password != $confirm_password) {
         $error = "Passwords do not match";
-    } elseif(strlen($password) < 6) {
-        $error = "Password must be at least 6 characters long";
+    } elseif(strlen($password) < 8) {
+        $error = "Password must be at least 8 characters long";
+    } elseif(!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$/', $password)) {
+        $error = "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.";
     } else {
-        // Check if email already exists
-        $sql = "SELECT * FROM users WHERE email = '$email'";
-        $result = mysqli_query($conn, $sql);
+        // Check if email already exists (prepared statement)
+        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $stmt->store_result();
         
-        if(mysqli_num_rows($result) > 0) {
+        if($stmt->num_rows > 0) {
             $error = "Email already exists. Please use a different email or login.";
         } else {
             // Hash password
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             
-            // Insert user with telegram_chat_id
-            $sql = "INSERT INTO users (name, email, password, address, phone, telegram_chat_id) 
-                    VALUES ('$name', '$email', '$hashed_password', '$address', '$phone', '$telegram_chat_id')";
+            // Insert user with telegram_chat_id (prepared statement)
+            $stmt_insert = $conn->prepare("INSERT INTO users (name, email, password, address, phone, telegram_chat_id) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt_insert->bind_param("ssssss", $name, $email, $hashed_password, $address, $phone, $telegram_chat_id);
             
-            if(mysqli_query($conn, $sql)) {
-                $user_id = mysqli_insert_id($conn);
+            if($stmt_insert->execute()) {
+                $user_id = $stmt_insert->insert_id;
                 
                 // Log the user in
                 $_SESSION['user_id'] = $user_id;
@@ -49,9 +52,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 // Redirect to home
                 redirect('index.php', 'Registration successful! Welcome to Bloom & Basket.');
             } else {
-                $error = "Error: " . $sql . "<br>" . mysqli_error($conn);
+                $error = "Error: " . $stmt_insert->error;
             }
+            $stmt_insert->close();
         }
+        $stmt->close();
     }
 }
 ?>
@@ -70,42 +75,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/register.css">
-    <style>
-        .telegram-info {
-            background: #e8f4fd;
-            border: 1px solid #bee5eb;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin: 1rem 0;
-            font-size: 1.4rem;
-        }
-        .telegram-info h4 {
-            margin-top: 0;
-            color: #0c5460;
-            font-size: 1.6rem;
-        }
-        .simple-steps {
-            background: #d1ecf1;
-            padding: 1rem;
-            border-radius: 5px;
-            border-left: 4px solid #17a2b8;
-            margin: 1rem 0;
-        }
-        .simple-steps strong {
-            color: #0c5460;
-        }
-        .optional-label {
-            color: #666;
-            font-size: 1.2rem;
-        }
-        .bot-highlight {
-            background: #fff3cd;
-            padding: 0.5rem;
-            border-radius: 4px;
-            display: inline-block;
-            margin: 0.5rem 0;
-        }
-    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -135,7 +104,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="box" required>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="box"
+                    required
+                    pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$"
+                    title="At least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character">
+                <div id="password-error" class="error-message" style="display:none;"></div>
             </div>
             
             <div class="form-group">
@@ -156,7 +133,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="form-group">
                 <label for="telegram_chat_id">
                     Telegram Chat ID 
-                    <span class="optional-label">(Optional - for OTP login)</span>
                 </label>
                 <input type="text" id="telegram_chat_id" name="telegram_chat_id" class="box" placeholder="e.g., 123456789">
             </div>
@@ -172,6 +148,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <strong>3.</strong> Send any message (like "hi" or "hello")<br>
                     <strong>4.</strong> Bot will reply with your Chat ID<br>
                     <strong>5.</strong> Copy the number and paste it above ☝️
+                </div>
+                
+                <div class="qr-bot">
+                    <strong>Scan to open our Telegram Bot:</strong><br>
+                    <img src="image/bot_telegram.jpeg" alt="Telegram Bot QR Code">
+                    <br>
+                    <small>Or <a href="https://t.me/Bloombasket_bot" target="_blank">click here</a> to open in Telegram</small>
                 </div>
                 
                 <div id="bot-status" style="display: none; padding: 10px; margin: 10px 0; border-radius: 5px;">
@@ -238,7 +221,7 @@ document.getElementById('activate-bot-btn').addEventListener('click', function()
     statusDiv.innerHTML = '⏳ Activating Chat ID Bot... Please wait.';
     
     // Call the bot activation
-    fetch('activate_chat_bot.php')
+    fetch('otp-service/activate_chat_bot.php')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -279,6 +262,22 @@ document.getElementById('activate-bot-btn').addEventListener('click', function()
             statusDiv.innerHTML = '❌ Connection error. Please try again. Error: ' + error.message;
             button.disabled = false;
         });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('password').addEventListener('input', function() {
+        const value = this.value;
+        const errorDiv = document.getElementById('password-error');
+        const strongPattern = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$/;
+        if (!strongPattern.test(value)) {
+            errorDiv.style.display = 'block';
+            errorDiv.textContent = "Password must be at least 8 characters, include uppercase, lowercase, number, and special character.";
+            this.style.borderColor = '#dc3545';
+        } else {
+            errorDiv.style.display = 'none';
+            this.style.borderColor = '';
+        }
+    });
 });
 </script>
 </body>
