@@ -1,71 +1,143 @@
-# 🌸 Bloom & Basket 🧺 - E-commerce Website
+# Bloom & Basket - Advanced MFA E-Commerce Platform
 
-This project is the codebase for the Bloom & Basket e-commerce website. It includes features for user registration, login, browsing products, managing a shopping cart, and processing checkout. An admin dashboard is also included for managing products and users.
+## Project Overview
 
-## 🛠️ Technologies Used
+### Core Features
+- User registration and login with role-based access (user/admin)
+- Product browsing, shopping cart management, and checkout
+- Admin dashboard for managing products and users
+- Secure MFA: Traditional username/password + Telegram-based OTP for out-of-band verification
+- Session management and role-based redirection (e.g., admins to `admin_dashboard.php`, users to `index.php`)
+- Password recovery and reset functionality
+- Expandable to IoT/MPU devices (e.g., Raspberry Pi) in future versions
 
-* **PHP:** For server-side logic and handling dynamic content.
-* **MySQL:** For storing website data (user accounts, products, orders, etc.).
-* **HTML:** For structuring the web pages.
-* **CSS:** For styling the website and providing a visually appealing user interface.
-* **JavaScript:** For enhancing interactivity and user experience on the front-end.
-* **Docker:** For containerizing the application and its dependencies, ensuring consistent deployment across different environments.
-* **Docker Compose:** For orchestrating the multi-container Docker application (web server, database).
+### Security Enhancements
+- **Password Hashing**: Uses PHP's `password_hash()` with bcrypt for secure storage and `password_verify()` for validation
+- **SQL Injection Protection**: Employs prepared statements with parameter binding to separate SQL logic from user input
+- **OTP Security**: 6-digit random OTPs, stored temporarily with timestamps, expire after 5 minutes, deleted after use
+- **Docker Security**: Official images, secure environment variables via `.env` (not hardcoded), minimal port exposure, data persistence via volumes
+- **Telegram Integration**: OTPs delivered via custom bot using Telegram API for out-of-band communication
 
+### Core Concepts Applied
+- **CIA Triad**:  
+  - *Confidentiality*: Hashed passwords, encrypted OTPs  
+  - *Integrity*: Exact OTP matching  
+  - *Availability*: Modular Docker setup  
+- **Authentication vs Authorization**:  
+  - Verifies identity (email/password + OTP) before granting access based on roles  
+- **MFA Importance**:  
+  - Combines "something you know" (password) + "something you have" (Telegram OTP) to mitigate phishing, brute-force, and credential stuffing  
 
-* `Dockerfile`: Configuration for building the Docker image for the web application.
-* `docker-compose.yml`: Configuration for defining and managing the Docker containers (e.g., web server and MySQL database).
-* `css/`: Contains the stylesheets for the website's appearance.
-* `font/`: Stores any custom fonts used in the website.
-* `includes/`: Contains reusable PHP files such as database connection scripts, header, footer, or functions.
-* `js/`: Holds the JavaScript files for client-side functionality.
-* `image/`: Contains images used on the website.
-* `users/`: Contain specific files related to user management.
-* `products/`: Contain files related to product display or management.
-* `admin_dashboard.php`: The main page for the administrative interface.
-* `all_products.php`: Page to display all available products.
-* `checkout.php`: Handles the checkout process for users.
-* `db.php`: Contains database connection details and functions.
-* `execute_query.php`: Uutility script to run database queries.
-* `forgot_password.php`: Handles the password recovery process.
-* `icon.png`: The website's favicon or a small icon.
-* `index.php`: The main homepage of the Bloom & Basket website.
-* `init.sql`: SQL script to initialize the database schema and possibly initial data.
-* `login.php`: Handles user login functionality.
-* `password.php`: Password management or updates.
-* `register.php`: Handles user registration.
-* `reset_password.php`: Handles the process of resetting a user's password.
+---
 
-## 🚀 Getting Started (Development)
+## Technologies Used
+- **PHP**: Server-side logic, dynamic content, MFA handling  
+- **MySQL**: Database for user accounts, products, orders, temporary OTP storage  
+- **HTML/CSS/JavaScript**: Front-end structure, styling, interactivity  
+- **Docker & Docker Compose**: Containerization for web server, database, Telegram sender  
+- **Telegram Bot API**: Secure OTP delivery  
+- **Other Tools**: cURL for API requests, `.env` for secure configuration  
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository_url>
-    cd bloom_and_basket
-    ```
-    *(Replace `<repository_url>` with the actual URL of your repository)*
+---
 
-2.  **Ensure Docker and Docker Compose are installed** on your system.
+## File Structure
+```plaintext
+css/          # Stylesheets
+font/         # Custom fonts
+includes/     # Reusable PHP files (DB connection, headers/footers)
+js/           # Client-side JavaScript
+image/        # Website images
+users/        # User management files
+products/     # Product-related files
+admin_dashboard.php
+all_products.php
+checkout.php
+db.php
+execute_query.php
+forgot_password.php
+icon.png
+index.php
+init.sql
+login.php
+otp.php
+password.php
+register.php
+reset_password.php
+user_dashboard.php
+Dockerfile
+docker-compose.yml
+.env          # Secure API tokens, DB credentials (gitignored)
+```
+## Setup Instructions
 
-3.  **Start the Docker containers:**
-    ```bash
-    docker-compose up -d
-    ```
-    This will build and start the web server and MySQL database containers.
+### Prerequisites
 
-4.  **Access the website:** Open your web browser and navigate to `http://localhost` (or the appropriate port if configured differently in `docker-compose.yml`).
+- Docker & Docker Compose installed  
+- Telegram account and BotFather for creating a bot (API token)  
 
-5.  **Database Initialization:** The `init.sql` file should automatically create the necessary database schema and potentially seed initial data when the MySQL container starts.
+### Clone the Repository
 
-## 🔑 Key Features
+```bash
+git clone <repo-url>
+cd bloom-basket
+```
+### Configure .env
+Create a .env file:
+```env
+TELEGRAM_BOT_TOKEN=your_bot_token_here
+DB_HOST=db
+DB_USER=root
+DB_PASSWORD=your_db_password
+DB_NAME=bloom_basket
+```
+### Run with Docker
+```bash
+Copy code
+docker-compose up -d
+Access at http://localhost:8081
+```
 
-* User registration and login.
-* Product catalog browsing.
-* Shopping cart functionality.
-* Secure checkout process.
-* Admin dashboard for product and user management.
-* Password recovery options.
+- MySQL runs internally on port 3306
 
-## 🐳 Docker Information
+### Initialize Database
+- Run `init.sql` via MySQL client or phpMyAdmin
 
-This project is containerized using Docker for easy setup and deployment. The `Dockerfile` defines the environment for the PHP web application, and `docker-compose.yml` orchestrates the web server and the MySQL database.
+### Telegram Bot Setup
+- Create bot via BotFather
+- Users get Chat ID by starting the bot (e.g., via QR code in registration)
+
+### Test OTP sending
+- Verify OTP delivery and expiration functionality
+
+---
+
+## Implementation Flow
+1. **Registration:** Enter email, password, Telegram Chat ID → hash password → store in DB  
+2. **Login:** Validate credentials → redirect to OTP page if valid  
+3. **OTP Verification:** Generate/send OTP via Telegram → user enters → verify & redirect by role  
+4. **Error Handling:** Logs for API failures; user prompts for retries  
+
+*For a visual flowchart, see the project report (page 10)*
+
+---
+
+## Testing and Results
+- OTP generation/delivery/expiry/reuse: 
+- Login flow with MFA: 
+- Role-based redirection: 
+- **Performance:** OTP delivery ~2–5 seconds, 90% success rate  
+
+---
+
+## Potential Vulnerabilities & Mitigations
+- **MITM Attacks:** Use HTTPS, Telegram encryption  
+- **Compromised Telegram:** Advise 2FA on Telegram, hash OTPs  
+- **Brute Force:** Random OTPs, limit login attempts  
+- **Container Risks:** Minimal privileges, official images  
+
+---
+
+## Future Enhancements
+- Integrate MPU/IoT for physical authentication (Raspberry Pi)  
+- Add ML-based recommendations or analytics  
+- Biometric MFA
