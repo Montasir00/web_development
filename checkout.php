@@ -27,6 +27,8 @@ if ($cart_items_for_check && mysqli_num_rows($cart_items_for_check) > 0) {
 
 // Process order submission
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    csrf_require_or_fail(); // ✅ CSRF check FIRST
+
     // Add empty cart check here to prevent empty orders
     if (!$has_items) {
         $error = "Cannot place order with an empty cart. Please add items to your cart first.";
@@ -135,6 +137,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <h2>Shipping Information</h2>
                 
                 <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
+                    <?= csrf_input() ?> <!-- ✅ CSRF hidden field -->
+
                     <div class="form-group">
                         <label for="name">Full Name</label>
                         <input type="text" id="name" name="name" value="<?php echo isset($user['name']) ? htmlspecialchars($user['name']) : ''; ?>" class="box" required>

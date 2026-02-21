@@ -1,14 +1,24 @@
 <?php
 $servername = "db";
-$username   = "bloomuser";      // Change to your MySQL username
-$password   = "bloompassword";          // Change to your MySQL password
+$username   = "bloomuser";
+$password   = "bloompassword";
 $dbname     = "bloom_basket";
 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$maxRetries = 10;
+$connected = false;
 
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+while ($maxRetries--) {
+    $conn = @mysqli_connect($servername, $username, $password, $dbname);
+    if ($conn) {
+        $connected = true;
+        break;
+    }
+    echo "Waiting for MySQL... retries left: $maxRetries\n";
+    sleep(2); // wait 2 seconds before retry
+}
+
+if (!$connected) {
+    die("Connection failed after multiple attempts: " . mysqli_connect_error());
 }
 ?>
+

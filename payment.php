@@ -42,6 +42,8 @@ if (isset($_SESSION['user']['email'])) {
 
 // Handle OTP sending
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_otp'])) {
+    csrf_require_or_fail(); // ✅ CSRF check FIRST
+
     if (empty($user_email)) {
         $error = "User email not found. Please login again.";
     } else {
@@ -56,6 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_otp'])) {
 
 // Handle OTP verification and order processing
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify_otp'])) {
+    csrf_require_or_fail(); // ✅ CSRF check FIRST
+
     $otp = sanitize($_POST['otp']);
     
     if (empty($user_email)) {
@@ -172,12 +176,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['verify_otp'])) {
                 <?php if (!empty($user_email)): ?>
                     <!-- Send OTP Form -->
                     <form method="POST" style="margin-bottom: 20px;">
+                        <?= csrf_input() ?> <!-- ✅ CSRF hidden field -->
                         <input type="hidden" name="send_otp" value="1">
                         <input type="submit" value="Send OTP to Telegram" class="btn">
                     </form>
                     
                     <!-- Verify OTP Form -->
                     <form method="POST">
+                        <?= csrf_input() ?> <!-- ✅ CSRF hidden field -->
                         <div class="form-group">
                             <label for="otp">Enter OTP from Telegram:</label>
                             <input type="text" id="otp" name="otp" class="box" placeholder="123456" required>

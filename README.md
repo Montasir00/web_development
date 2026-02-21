@@ -1,143 +1,163 @@
-# Bloom & Basket - Advanced MFA E-Commerce Platform
+# Bloom & Basket - E-commerce Website
 
-## Project Overview
-
-### Core Features
-- User registration and login with role-based access (user/admin)
-- Product browsing, shopping cart management, and checkout
-- Admin dashboard for managing products and users
-- Secure MFA: Traditional username/password + Telegram-based OTP for out-of-band verification
-- Session management and role-based redirection (e.g., admins to `admin_dashboard.php`, users to `index.php`)
-- Password recovery and reset functionality
-- Expandable to IoT/MPU devices (e.g., Raspberry Pi) in future versions
-
-### Security Enhancements
-- **Password Hashing**: Uses PHP's `password_hash()` with bcrypt for secure storage and `password_verify()` for validation
-- **SQL Injection Protection**: Employs prepared statements with parameter binding to separate SQL logic from user input
-- **OTP Security**: 6-digit random OTPs, stored temporarily with timestamps, expire after 5 minutes, deleted after use
-- **Docker Security**: Official images, secure environment variables via `.env` (not hardcoded), minimal port exposure, data persistence via volumes
-- **Telegram Integration**: OTPs delivered via custom bot using Telegram API for out-of-band communication
-
-### Core Concepts Applied
-- **CIA Triad**:  
-  - *Confidentiality*: Hashed passwords, encrypted OTPs  
-  - *Integrity*: Exact OTP matching  
-  - *Availability*: Modular Docker setup  
-- **Authentication vs Authorization**:  
-  - Verifies identity (email/password + OTP) before granting access based on roles  
-- **MFA Importance**:  
-  - Combines "something you know" (password) + "something you have" (Telegram OTP) to mitigate phishing, brute-force, and credential stuffing  
-
----
+A full-featured e-commerce web application built with PHP and MySQL, containerized with Docker. The project includes a complete shopping experience, a Telegram-based OTP authentication system, HTTPS support via Nginx, and an admin dashboard.
 
 ## Technologies Used
-- **PHP**: Server-side logic, dynamic content, MFA handling  
-- **MySQL**: Database for user accounts, products, orders, temporary OTP storage  
-- **HTML/CSS/JavaScript**: Front-end structure, styling, interactivity  
-- **Docker & Docker Compose**: Containerization for web server, database, Telegram sender  
-- **Telegram Bot API**: Secure OTP delivery  
-- **Other Tools**: cURL for API requests, `.env` for secure configuration  
 
----
+- **PHP** - Server-side logic and dynamic content
+- **MySQL** - Database for users, products, orders, and cart data
+- **HTML / CSS / JavaScript** - Front-end structure, styling, and interactivity
+- **Docker & Docker Compose** - Containerized multi-service deployment
+- **Nginx** - Reverse proxy with HTTPS/TLS termination
+- **Telegram Bot API** - OTP delivery for multi-factor authentication
 
-## File Structure
-```plaintext
-css/          # Stylesheets
-font/         # Custom fonts
-includes/     # Reusable PHP files (DB connection, headers/footers)
-js/           # Client-side JavaScript
-image/        # Website images
-users/        # User management files
-products/     # Product-related files
-admin_dashboard.php
-all_products.php
-checkout.php
-db.php
-execute_query.php
-forgot_password.php
-icon.png
-index.php
-init.sql
-login.php
-otp.php
-password.php
-register.php
-reset_password.php
-user_dashboard.php
-Dockerfile
-docker-compose.yml
-.env          # Secure API tokens, DB credentials (gitignored)
+## Project Structure
+
 ```
-## Setup Instructions
+.
+├── blog/                    # Blog detail pages
+├── certs/                   # TLS certificates for HTTPS (web.crt, web.key)
+├── css/                     # Stylesheets for all pages
+├── font/                    # Custom fonts
+├── image/                   # Static images
+├── includes/                # Shared PHP includes
+│   ├── init.php             # Session hardening, CSRF init, DB bootstrap
+│   ├── csrf.php             # CSRF token generation and validation
+│   ├── functions.php        # Shared helper functions
+│   ├── header.php           # Site-wide header
+│   ├── footer.php           # Site-wide footer
+│   ├── add_to_cart.php      # Add-to-cart handler
+│   ├── remove_from_cart.php # Remove-from-cart handler
+│   ├── get_cart_details.php # Cart data retrieval
+│   ├── login_handler.php    # Login processing
+│   ├── logout.php           # Session logout
+│   ├── products.php         # Product listing include
+│   ├── reviews.php          # Product reviews include
+│   ├── blogs.php            # Blog listing include
+│   ├── banner.php           # Homepage banner
+│   ├── features.php         # Features section
+│   ├── cta.php              # Call-to-action section
+│   └── update.php           # Profile/data update handler
+├── js/                      # JavaScript files
+├── mfa/                     # Multi-factor authentication utilities
+│   ├── utils.php            # OTP generation and verification logic
+│   └── verify.php           # MFA verification endpoint
+├── nginx/
+│   └── default.conf         # Nginx reverse proxy configuration
+├── otp-service/             # Dockerized Telegram OTP microservice
+│   ├── Dockerfile
+│   ├── send_otp.php         # Sends OTP via Telegram bot
+│   ├── telegram_config.php  # Telegram bot credentials and helpers
+│   ├── chat_id_bot.php      # Resolves Telegram chat ID for a user
+│   └── activate_chat_bot.php
+├── otp_storage/             # File-based OTP session storage (mounted volume)
+├── products/                # Product management pages
+├── users/                   # User profile/account pages
+├── admin_dashboard.php      # Admin panel entry point
+├── all_products.php         # Full product catalog page
+├── checkout.php             # Checkout form and order summary
+├── payment.php              # OTP-verified payment step
+├── order_confirmation.php   # Post-order confirmation page
+├── otp.php                  # Telegram OTP login page
+├── login.php                # Standard login page
+├── register.php             # User registration
+├── forgot_password.php      # Password recovery flow
+├── reset_password.php       # Password reset handler
+├── password.php             # Password change page
+├── index.php                # Homepage
+├── db.php                   # Database connection
+├── init.sql                 # Database schema and seed data
+├── execute_query.php        # Admin query execution utility
+├── Dockerfile               # PHP/Apache web container
+├── docker-compose.yml       # Multi-service orchestration
+└── .env                     # Environment variables (not committed)
+```
+
+## Key Features
+
+### Authentication & Security
+- Standard email and password login with session management
+- **Telegram OTP login** - users can authenticate using a one-time password delivered via Telegram bot
+- **CSRF protection** on all forms using cryptographically secure per-session tokens
+- **Session hardening** - sessions are bound to IP address and User-Agent; sessions expire after 30 minutes of inactivity
+- Password recovery via forgot/reset password flow
+- Role-based access (admin vs. regular user)
+
+### Shopping & Orders
+- Product catalog with browsing and filtering
+- Shopping cart (add, remove, update quantities)
+- Multi-step checkout with shipping address and payment method selection
+- **OTP-verified payment** - users must verify identity via Telegram OTP before an order is finalized
+- Order confirmation page with itemized order summary
+- Admin dashboard for managing products and users
+
+### Content
+- Blog section with individual blog detail pages
+- Homepage with banner, featured products, and call-to-action sections
+
+### Infrastructure
+- **Nginx reverse proxy** with HTTPS/TLS support on port 8443
+- **Telegram OTP microservice** running as a dedicated Docker container
+- **phpMyAdmin** available at `http://localhost:8082` for database management
+- OTP storage mounted as a Docker volume for persistence across restarts
+
+## Getting Started
 
 ### Prerequisites
+- [Docker](https://www.docker.com/) and Docker Compose installed
+- A Telegram bot token (see [BotFather](https://core.telegram.org/bots#botfather))
+- TLS certificates placed in `certs/web.crt` and `certs/web.key` (self-signed is fine for local development)
 
-- Docker & Docker Compose installed  
-- Telegram account and BotFather for creating a bot (API token)  
+### Setup
 
-### Clone the Repository
+1. **Clone the repository:**
+   ```bash
+   git clone <repository_url>
+   cd bloom-and-basket
+   ```
 
-```bash
-git clone <repo-url>
-cd bloom-basket
-```
-### Configure .env
-Create a .env file:
-```env
-TELEGRAM_BOT_TOKEN=your_bot_token_here
-DB_HOST=db
-DB_USER=root
-DB_PASSWORD=your_db_password
-DB_NAME=bloom_basket
-```
-### Run with Docker
-```bash
-Copy code
-docker-compose up -d
-Access at http://localhost:8081
-```
+2. **Configure environment variables:**
 
-- MySQL runs internally on port 3306
+   Create a `.env` file in the project root:
+   ```env
+   TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+   ```
 
-### Initialize Database
-- Run `init.sql` via MySQL client or phpMyAdmin
+3. **Start all containers:**
+   ```bash
+   docker-compose up -d
+   ```
 
-### Telegram Bot Setup
-- Create bot via BotFather
-- Users get Chat ID by starting the bot (e.g., via QR code in registration)
+   This will start:
+   | Container     | Description                        | Port          |
+   |---------------|------------------------------------|---------------|
+   | `web`         | PHP/Apache application             | (internal)    |
+   | `db`          | MySQL 5.7 database                 | 3307          |
+   | `otp-service` | Telegram OTP delivery service      | (internal)    |
+   | `nginx`       | Reverse proxy with HTTPS           | 8081, 8443    |
+   | `phpmyadmin`  | Database management UI             | 8082          |
 
-### Test OTP sending
-- Verify OTP delivery and expiration functionality
+4. **Access the site:**
+   - HTTP (via Nginx): `http://localhost:8081`
+   - HTTPS (via Nginx): `https://localhost:8443`
+   - phpMyAdmin: `http://localhost:8082`
 
----
+5. **Database initialization:**
 
-## Implementation Flow
-1. **Registration:** Enter email, password, Telegram Chat ID → hash password → store in DB  
-2. **Login:** Validate credentials → redirect to OTP page if valid  
-3. **OTP Verification:** Generate/send OTP via Telegram → user enters → verify & redirect by role  
-4. **Error Handling:** Logs for API failures; user prompts for retries  
+   The `init.sql` file is loaded automatically by the MySQL container on first start, creating all required tables and seeding initial data.
 
-*For a visual flowchart, see the project report (page 10)*
+### Telegram OTP Setup
 
----
+Each user who wants to use Telegram OTP or OTP-verified payments must link their Telegram account to their registered email. Use `otp-service/chat_id_bot.php` to retrieve and associate a user's Telegram chat ID.
 
-## Testing and Results
-- OTP generation/delivery/expiry/reuse: 
-- Login flow with MFA: 
-- Role-based redirection: 
-- **Performance:** OTP delivery ~2–5 seconds, 90% success rate  
+## Docker Services
 
----
+| Service       | Image / Build                  | Purpose                            |
+|---------------|--------------------------------|------------------------------------|
+| `web`         | Built from `./Dockerfile`      | PHP 8 + Apache web server          |
+| `db`          | `mysql:5.7`                    | Relational database                |
+| `otp-service` | Built from `./otp-service/`    | Telegram bot OTP sender            |
+| `nginx`       | `nginx:alpine`                 | TLS termination and reverse proxy  |
+| `phpmyadmin`  | `phpmyadmin/phpmyadmin:latest` | Browser-based DB management        |
 
-## Potential Vulnerabilities & Mitigations
-- **MITM Attacks:** Use HTTPS, Telegram encryption  
-- **Compromised Telegram:** Advise 2FA on Telegram, hash OTPs  
-- **Brute Force:** Random OTPs, limit login attempts  
-- **Container Risks:** Minimal privileges, official images  
-
----
-
-## Future Enhancements
-- Integrate MPU/IoT for physical authentication (Raspberry Pi)  
-- Add ML-based recommendations or analytics  
-- Biometric MFA
+All services share the `bloom_network` Docker bridge network.

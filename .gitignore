@@ -11,7 +11,7 @@ Thumbs.db
 # Dependency managers (if any)
 node_modules/
 vendor/
-
+certs/
 # Logs and temporary files
 *.log
 tmp/

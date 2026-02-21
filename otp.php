@@ -19,6 +19,8 @@ $email = $_SESSION['pending_email'];
 
 // Handle Send OTP button
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_otp'])) {
+    csrf_require_or_fail(); // ✅ CSRF check FIRST
+
     $otp = generateOTP();
     if (storeOTP($email, $otp) && sendTelegramOTP($email, $otp)) {
         $success = "OTP sent to your Telegram!";
@@ -30,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_otp'])) {
 
 // Handle OTP verification
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['telegram_login'])) {
+    csrf_require_or_fail(); // ✅ CSRF check FIRST
+
     $entered_otp = sanitize($_POST['otp']);
 
     if (empty($entered_otp)) {
@@ -90,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['telegram_login'])) {
     <!-- Email Step -->
     <?php if (!$showOtpForm): ?>
         <form method="POST">
+            <?= csrf_input() ?> <!-- ✅ CSRF hidden field -->
             <div class="form-group">
                 <label for="telegram-email">Email:</label>
                 <input type="email" id="telegram-email-display" class="box" value="<?= htmlspecialchars($email) ?>" readonly>
@@ -103,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['telegram_login'])) {
     <!-- OTP Step -->
     <?php if ($showOtpForm): ?>
         <form method="POST">
+            <?= csrf_input() ?> <!-- ✅ CSRF hidden field -->
             <input type="hidden" name="email" value="<?= htmlspecialchars($email) ?>">
             <div class="form-group">
                 <label for="otp">OTP:</label>
@@ -146,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 2000); // Redirect after 2 seconds
             }
         }
-        updateTimer(); // <-- This must be outside the function!
+        updateTimer();
     }
 });
 </script>

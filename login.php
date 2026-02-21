@@ -9,6 +9,8 @@ if (session_status() === PHP_SESSION_NONE) {
 $error = '';
 $success = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_require_or_fail(); // ✅ CSRF check FIRST
+
     if (isset($_POST['login'])) {
         $email = sanitize($_POST['email']);
         $password = sanitize($_POST['password']);
@@ -62,6 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <?php endif; ?>
 
     <form method="POST">
+        <?= csrf_input() ?> <!-- ✅ CSRF hidden field -->
+
         <div class="form-group">
             <label>Email:</label>
             <input type="email" name="email" id="login-email" placeholder="Enter your email" class="box" required>

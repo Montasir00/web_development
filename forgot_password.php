@@ -5,6 +5,8 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    csrf_require_or_fail(); // ✅ CSRF check FIRST
+
     $email = sanitize($_POST['email']);
     $new_password = sanitize($_POST['new_password']);
     $confirm_password = sanitize($_POST['confirm_password']);
@@ -77,6 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endif; ?>
         
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <?= csrf_input() ?> <!-- ✅ CSRF hidden field -->
+
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" class="box" required>

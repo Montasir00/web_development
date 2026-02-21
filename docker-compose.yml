@@ -1,24 +1,26 @@
-version: '3.9'
-
 services:
+  # PHP/Apache Web App
   web:
     build: .
-    ports:
-      - "8081:80"
+    container_name: web
+    restart: always
     volumes:
       - .:/var/www/html
-      - ./otp_storage:/var/www/html/otp_storage 
+      - ./otp_storage:/var/www/html/otp_storage
     depends_on:
       - db
     networks:
       - bloom_network
     env_file:
-      - .env  
-
+      - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # optional for Windows host access
 
   # MySQL Database
   db:
     image: mysql:5.7
+    container_name: db
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: bloom_basket
@@ -34,6 +36,8 @@ services:
   # phpMyAdmin
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
     environment:
       PMA_HOST: db
       PMA_USER: bloomuser
@@ -44,19 +48,41 @@ services:
       - db
     networks:
       - bloom_network
+
+  # OTP Service
   otp-service:
-      build:
-        context: ./otp-service  # separate folder for OTP code
-      ports:
-        - "8083:80"  # for local testing
-      volumes:
-        - ./otp-service:/var/www/html
-      environment:
-        TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
-      depends_on:
-        - db
-      networks:
-        - bloom_network
+    build:
+      context: ./otp-service
+    container_name: otp-service
+    restart: always
+    volumes:
+      - ./otp-service:/var/www/html
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+    depends_on:
+      - db
+    networks:
+      - bloom_network
+
+  # Nginx reverse proxy for HTTPS
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: always
+    ports:
+      - "8081:80"
+      - "8443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./certs/web.crt:/etc/nginx/certs/web.crt:ro
+      - ./certs/web.key:/etc/nginx/certs/web.key:ro
+    depends_on:
+      - web
+      - otp-service
+    networks:
+      - bloom_network
+
+
 volumes:
   mysql_data:
 
