@@ -2,6 +2,14 @@
 
 A full-featured e-commerce web application built with PHP and MySQL, containerized with Docker. The project includes a complete shopping experience, a Telegram-based OTP authentication system, HTTPS support via Nginx, and an admin dashboard.
 
+## Screenshots
+
+**Home Page**
+![Home Page](image/Screenshot%202026-02-21%20140751.png)
+
+**Product Page**
+![Product Page](image/Screenshot%202026-02-21%20141121.png)
+
 ## Technologies Used
 
 - **PHP** - Server-side logic and dynamic content
