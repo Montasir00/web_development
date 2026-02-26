@@ -91,7 +91,6 @@ The entire stack is containerized using **Docker**, enabling deterministic build
 
 ## Project Structure
 
-
 web_development/
 ├── docker-compose.yml
 ├── Dockerfile
