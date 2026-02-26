@@ -114,8 +114,6 @@ web_development/
 │
 └── apache/
 └── default.conf
-
-
 ---
 
 ## Getting Started
