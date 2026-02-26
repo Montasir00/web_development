@@ -23,7 +23,7 @@ loadTelegramEnv();
 function sendTelegramOTP($email, $otp) {
     global $conn;
     
-    $token = "7151167341:AAEgHFNm1zwluKo-LnFROLL9aQ2-Kl6IyCg"; // bot token
+    $token = "*********************************"; // bot token
     $admin_chat_id = getenv('TELEGRAM_CHAT_ID'); // chat_id from .env
     
     if (!$token) {
