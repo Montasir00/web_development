@@ -88,6 +88,9 @@ The entire stack is containerized using **Docker**, enabling deterministic build
 | Styling | Custom responsive CSS |
 
 ---
+## Project Structure
+
+```text
 web_development/
 ├── docker-compose.yml
 ├── Dockerfile
@@ -111,7 +114,7 @@ web_development/
 │
 └── apache/
     └── default.conf
-
+```
 ## Getting Started
 
 ### Requirements
