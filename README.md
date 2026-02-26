@@ -89,33 +89,29 @@ The entire stack is containerized using **Docker**, enabling deterministic build
 
 ---
 
-## Project Structure
-
 web_development/
 ├── docker-compose.yml
 ├── Dockerfile
 ├── .env.example
 │
 ├── public/
-│ ├── index.php
-│ ├── assets/
-│ ├── pages/
-│ └── admin/
+│   ├── index.php
+│   ├── assets/
+│   ├── pages/
+│   └── admin/
 │
 ├── src/
-│ ├── config/
-│ ├── controllers/
-│ ├── models/
-│ └── helpers/
+│   ├── config/
+│   ├── controllers/
+│   ├── models/
+│   └── helpers/
 │
 ├── sql/
-│ ├── schema.sql
-│ └── seed_admin.sql
+│   ├── schema.sql
+│   └── seed_admin.sql
 │
 └── apache/
-└── default.conf
-
----
+    └── default.conf
 
 ## Getting Started
 
