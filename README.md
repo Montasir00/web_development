@@ -1,7 +1,7 @@
 <div align="center">
 
 # Bloom & Basket
-## Floral & Gift E-Commerce Platform
+## E-Commerce Platform
 
 ### A full-featured PHP e-commerce system  
 ### Dockerized · Secure · Admin-ready
@@ -16,7 +16,7 @@
 
 ---
 
-A production-style PHP e-commerce application for selling floral arrangements and curated gift baskets, featuring secure authentication, role-based access control, and a fully containerized Docker environment.
+A production-style PHP e-commerce application for selling foods, featuring secure authentication, role-based access control, and a fully containerized Docker environment.
 
 </div>
 
